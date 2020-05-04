@@ -203,7 +203,10 @@ exports.sortFunction = function (rows, sortOrder, columnName) {
             }
             return result;
         });
-        resolve(rows);
+        // Purposefully added dealy here to see loading spinner
+        setTimeout(function () {
+            resolve(rows);
+        }, 2000);
     });
 };
 // Column Data with sort option
@@ -351,7 +354,10 @@ exports.getPageData = function (pageIndex, pageSize) {
         else if (pageSize == 10) {
             rows = exports.paginationRows;
         }
-        resolve(rows);
+        // Purposefully added dealy here to see loading spinner
+        setTimeout(function () {
+            resolve(rows);
+        }, 2000);
     });
 };
 exports.paginationDetails = {
@@ -386,7 +392,10 @@ exports.pageFilterFunction = function (rows, columnValue, columnName) {
                 totalItems: newRows.length,
             };
         }
-        resolve(result);
+        // Purposefully added dealy here to see loading spinner
+        setTimeout(function () {
+            resolve(result);
+        }, 2000);
     });
 };
 // Data for Hide/show columns

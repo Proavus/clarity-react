@@ -75,6 +75,9 @@ export declare class ClassNames {
     static SWITCH_HEADER: string;
     static CLR_CHECKBOX_WRAPPER: string;
     static SWITCH_CONTENT: string;
+    static DATAGRID_SPINNER: string;
+    static DATAGRID_OUTER_WRAPPER: string;
+    static DATAGRID_INNER_WRAPPER: string;
 }
 export declare class Styles {
     static PAGINATION_DESCRIPTION_COMPACT: {

@@ -79,6 +79,9 @@ var ClassNames = /** @class */ (function () {
     ClassNames.SWITCH_HEADER = "switch-header";
     ClassNames.CLR_CHECKBOX_WRAPPER = "clr-checkbox-wrapper";
     ClassNames.SWITCH_CONTENT = "switch-content list-unstyled";
+    ClassNames.DATAGRID_SPINNER = "datagrid-spinner";
+    ClassNames.DATAGRID_OUTER_WRAPPER = "datagrid-outer-wrapper";
+    ClassNames.DATAGRID_INNER_WRAPPER = "datagrid-inner-wrapper";
     return ClassNames;
 }());
 exports.ClassNames = ClassNames;

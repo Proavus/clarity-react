@@ -44,11 +44,11 @@ react_1.storiesOf("Input", module)
     React.createElement(Input_1.Input, { name: "somevalue", onChange: addon_actions_1.action("changed"), placeholder: "Type to search ...", style: { width: "40%" } },
         React.createElement(icon_1.Icon, { shape: "search", style: { marginLeft: "-20px", width: "16px", height: "16px" } })))); })
     .add("input box with error", function () { return (React.createElement("div", null,
-    React.createElement(Input_1.Input, { name: "somevalue", placeholder: "stuff goes here", style: { width: "20%" }, error: true, onBlur: addon_actions_1.action("select with error - blur"), onChange: addon_actions_1.action("select with error - change"), errorHelperText: "This field is reuired" }),
+    React.createElement(Input_1.Input, { name: "somevalue", placeholder: "stuff goes here", style: { width: "20%" }, error: true, onBlur: addon_actions_1.action("select with error - blur"), onChange: addon_actions_1.action("select with error - change"), errorHelperText: "This field is required" }),
     React.createElement("br", null),
     " ",
     React.createElement("br", null),
-    React.createElement(Input_1.Input, { name: "somevalue", isBoxed: true, error: true, errorHelperText: "This field is reuired", onBlur: addon_actions_1.action("select with error - blur"), onChange: addon_actions_1.action("select with error - change") }),
+    React.createElement(Input_1.Input, { name: "somevalue", isBoxed: true, error: true, errorHelperText: "This field is required", onBlur: addon_actions_1.action("select with error - blur"), onChange: addon_actions_1.action("select with error - change") }),
     React.createElement("br", null),
     React.createElement(Input_1.Input, { name: "somevalue", error: true, onBlur: addon_actions_1.action("select with error - blur"), onChange: addon_actions_1.action("select with error - change"), helperText: "Provide search value" },
         React.createElement(icon_1.Icon, { shape: "search", style: { marginLeft: "-20px", width: "16px", height: "16px" } })))); });

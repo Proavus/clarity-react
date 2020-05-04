@@ -47,6 +47,7 @@ var checkbox_1 = require("../forms/checkbox");
 var radio_1 = require("../forms/radio");
 var button_1 = require("../forms/button");
 var icon_1 = require("../icon");
+var Spinner_1 = require("../spinner/Spinner");
 var HideShowColumns_1 = require("./HideShowColumns");
 /**
  * Enum for GridSelectionType :
@@ -93,6 +94,7 @@ var DataGrid = /** @class */ (function (_super) {
         _this.pageIndexRef = React.createRef();
         // Initial state of datagrid
         _this.state = {
+            isLoading: true,
             selectAll: false,
             allColumns: _this.props.columns,
             allRows: _this.props.rows !== undefined ? _this.props.rows : [],
@@ -258,6 +260,7 @@ var DataGrid = /** @class */ (function (_super) {
         };
         // Function to handle sorting
         _this.handleSort = function (evt, columnName, columnID, sortFunction, defaultSortOrder) {
+            _this.showLoader();
             var _a = _this.state, allRows = _a.allRows, allColumns = _a.allColumns;
             if (columnID != undefined) {
                 // Set currentlySorted flag for all columns as false
@@ -278,6 +281,7 @@ var DataGrid = /** @class */ (function (_super) {
                         allRows: rows.slice(),
                         allColumns: allColumns.slice(),
                     });
+                    _this.hideLoader();
                 });
             }
         };
@@ -288,6 +292,9 @@ var DataGrid = /** @class */ (function (_super) {
         if (this.props.pagination !== undefined)
             this.setInitalStateForPagination();
     };
+    DataGrid.prototype.componentDidMount = function () {
+        this.hideLoader();
+    };
     DataGrid.prototype.componentDidUpdate = function (prevProps) {
         var _a = this.props, rows = _a.rows, columns = _a.columns, pagination = _a.pagination;
         if (rows && rows !== prevProps.rows) {
@@ -296,6 +303,14 @@ var DataGrid = /** @class */ (function (_super) {
         if (columns !== prevProps.columns) {
             this.updateColumns(columns);
         }
+    };
+    // Function to hide loading spinner on datagrid
+    DataGrid.prototype.hideLoader = function () {
+        this.setState({ isLoading: false });
+    };
+    // Function to show loading spinner on datagrid
+    DataGrid.prototype.showLoader = function () {
+        this.setState({ isLoading: true });
     };
     /* ##########  DataGrid private methods start  ############ */
     // Initialize state of grid
@@ -330,6 +345,7 @@ var DataGrid = /** @class */ (function (_super) {
     DataGrid.prototype.getPage = function (pageIndex, pageSize) {
         var _this = this;
         if (this.state.pagination && this.props.pagination) {
+            this.showLoader();
             var totalItems = this.state.pagination.totalItems;
             var getPageData = this.props.pagination.getPageData;
             var totalPages = this.state.pagination.pageSize !== pageSize
@@ -366,6 +382,7 @@ var DataGrid = /** @class */ (function (_super) {
                         pagination: paginationState_1,
                         selectAll: utils_1.allTrueOnKey(rows, "isSelected"),
                     });
+                    _this.hideLoader();
                 });
             }
         }
@@ -479,19 +496,35 @@ var DataGrid = /** @class */ (function (_super) {
     // function to build datagrid body
     DataGrid.prototype.buildDataGridBody = function () {
         var _this = this;
-        var _a = this.state, allRows = _a.allRows, itemText = _a.itemText;
+        var allRows = this.state.allRows;
         return (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID },
             React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_TABLE_WRAPPER },
                 React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_TABLE, role: "grid" },
                     this.buildDataGridHeader(),
-                    allRows.length !== 0 ? (allRows.map(function (row, index) {
+                    allRows.map(function (row, index) {
                         return _this.buildDataGridRow(row, index);
-                    })) : (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_PLACEHOLDER_CONTAINER },
-                        React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_PLACEHOLDER, ClassNames_1.ClassNames.DATAGRID_EMPTY]) },
-                            React.createElement("div", { className: utils_1.classNames([
-                                    ClassNames_1.ClassNames.DATAGRID_PLACEHOLDER_IMG,
-                                    ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED,
-                                ]) }), "We couldn't find any" + " " + itemText + " " + "!")))))));
+                    }),
+                    this.buildPlaceHolderContainer()))));
+    };
+    // Function to build placeholder container
+    DataGrid.prototype.buildPlaceHolderContainer = function () {
+        var allRows = this.state.allRows;
+        return (React.createElement("div", { className: utils_1.classNames([
+                ClassNames_1.ClassNames.DATAGRID_PLACEHOLDER_CONTAINER,
+                ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED,
+            ]) },
+            React.createElement("div", { className: utils_1.classNames([
+                    ClassNames_1.ClassNames.DATAGRID_PLACEHOLDER,
+                    allRows.length === 0 && ClassNames_1.ClassNames.DATAGRID_EMPTY,
+                ]) }, allRows.length === 0 && this.buildEmptyPlaceholder())));
+    };
+    // Function to create placeholder for empty datagrid
+    DataGrid.prototype.buildEmptyPlaceholder = function () {
+        var itemText = this.state.itemText;
+        var placeholderText = "We couldn't find any " + itemText + " !";
+        return (React.createElement(React.Fragment, null,
+            React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_PLACEHOLDER_IMG, ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED]) }),
+            placeholderText));
     };
     // Function to build datagrid header
     DataGrid.prototype.buildDataGridHeader = function () {
@@ -547,7 +580,7 @@ var DataGrid = /** @class */ (function (_super) {
                 isSelected && ClassNames_1.ClassNames.DATAGRID_SELECTED,
                 className,
             ]), "aria-owns": "clr-dg-row" + index, style: rowStyle, key: "row-" + index },
-            React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_MASTER, role: "row", id: "clr-dg-row1" },
+            React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_ROW_MASTER, ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED]), role: "row", id: "clr-dg-row1" },
                 React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_STICKY }),
                 React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_SCROLLABLE },
                     React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_SCROLLING_CELLS },
@@ -625,7 +658,7 @@ var DataGrid = /** @class */ (function (_super) {
         return (React.createElement("div", { "_ngcontent-clarity-c8": "", style: style, className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_PAGINATION, className]) },
             !compactFooter && pageSizes && totalItems >= pageSize && this.buildPageSizesSelect(),
             compactFooter ? (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED, style: ClassNames_1.Styles.PAGINATION_DESCRIPTION_COMPACT }, paginationLabel)) : (React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.PAGINATION_DESC]) }, paginationLabel)),
-            totalItems >= pageSize && compactFooter ? this.buildCompactPageButtons() : this.buildPageButtons()));
+            compactFooter ? this.buildCompactPageButtons() : this.buildPageButtons()));
     };
     // function to build Hide and show columns menu
     DataGrid.prototype.buildHideShowColumnsBtn = function () {
@@ -648,23 +681,39 @@ var DataGrid = /** @class */ (function (_super) {
     // function to build datagrid footer
     DataGrid.prototype.buildDataGridFooter = function () {
         // Need to take this from state in future
-        var _a = this.props, footer = _a.footer, pagination = _a.pagination;
+        var footer = this.props.footer;
+        var pagination = this.state.pagination;
+        var renderPaginationFooter = false;
+        if (pagination) {
+            var totalItems = pagination.totalItems, pageSize = pagination.pageSize;
+            if (totalItems && pageSize && totalItems >= pageSize) {
+                renderPaginationFooter = true;
+            }
+        }
         return (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_FOOTER + " " + (footer && footer.className && footer.className), style: footer && footer.style && footer.style },
             footer && footer.hideShowColBtn && this.buildHideShowColumnsBtn(),
-            React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_FOOTER_DESC }, pagination !== undefined ? this.buildDataGridPagination() : this.buildFooterContent())));
+            React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_FOOTER_DESC }, renderPaginationFooter ? this.buildDataGridPagination() : this.buildFooterContent())));
+    };
+    DataGrid.prototype.buildDataGridSpinner = function () {
+        return (React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_SPINNER, ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED]) },
+            React.createElement(Spinner_1.Spinner, { size: Spinner_1.SpinnerSize.MEDIUM })));
     };
     // render datagrid
     DataGrid.prototype.render = function () {
         var _a = this.props, className = _a.className, style = _a.style, rowType = _a.rowType, footer = _a.footer, dataqa = _a.dataqa;
+        var isLoading = this.state.isLoading;
         return (React.createElement("div", { className: utils_1.classNames([
                 ClassNames_1.ClassNames.DATAGRID_HOST,
                 rowType === GridRowType.COMPACT && ClassNames_1.ClassNames.DATAGRID_COMPACT,
                 className,
             ]), style: style, "data-qa": dataqa },
-            this.buildDataGridBody(),
-            footer && footer.showFooter && this.buildDataGridFooter(),
-            React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_CAL_TABLE },
-                React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_CAL_HEADER }))));
+            React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_OUTER_WRAPPER },
+                React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_INNER_WRAPPER },
+                    this.buildDataGridBody(),
+                    footer && footer.showFooter && this.buildDataGridFooter(),
+                    React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_CAL_TABLE },
+                        React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_CAL_HEADER })),
+                    isLoading && this.buildDataGridSpinner()))));
     };
     return DataGrid;
 }(React.PureComponent));

@@ -279,15 +279,17 @@ var Wizard = /** @class */ (function (_super) {
             });
         }
     };
-    Wizard.prototype.navigationClick = function (step) {
+    // Function to call on left side navigation click
+    Wizard.prototype.navigationClick = function (stepId) {
         var _this = this;
+        var step = this.getStepObj(stepId);
         if (step && step.customStepNav && step.customStepNav.onNavClick) {
             step.customStepNav.onNavClick().then(function () {
-                _this.modifyButtonStates(step.stepId);
+                _this.modifyButtonStates(stepId);
             });
         }
         else {
-            this.modifyButtonStates(step.stepId);
+            this.modifyButtonStates(stepId);
         }
     };
     Wizard.prototype.getStepNavClasses = function (stepId) {
@@ -378,7 +380,7 @@ var Wizard = /** @class */ (function (_super) {
                 " "),
             showNav && (React.createElement("div", { className: ClassNames_1.ClassNames.WIZARD_STEPNAV }, steps.map(function (step, key) {
                 return (React.createElement("div", { className: utils_1.classNames(_this.getStepNavClasses(step.stepId)) },
-                    React.createElement(button_1.Button, { disabled: _this.state.allSteps[step.stepId].disableNav, link: true, className: "clr-wizard-stepnav-link", onClick: _this.navigationClick.bind(_this, step), icon: _this.buildStepIcon(step) },
+                    React.createElement(button_1.Button, { disabled: _this.state.allSteps[step.stepId].disableNav, link: true, className: "clr-wizard-stepnav-link", onClick: _this.navigationClick.bind(_this, step.stepId), icon: _this.buildStepIcon(step) },
                         "\u00A0",
                         step.customStepNav !== undefined && step.customStepNav.stepNavTitle
                             ? step.customStepNav.stepNavTitle

@@ -178,6 +178,7 @@ export declare enum GridRowType {
  * @param {allRows} row data
  * @param {itemText} label to display for all items
  * @param {pagination} pagination data
+ * @param {isLoading} if true shows loading spinner else shows datagrid
  */
 declare type DataGridState = {
     selectAll: boolean;
@@ -185,6 +186,7 @@ declare type DataGridState = {
     allRows: DataGridRow[];
     itemText: string;
     pagination?: DataGridPaginationState;
+    isLoading: boolean;
 };
 declare type DataGridPaginationState = {
     currentPage: number;
@@ -204,11 +206,14 @@ export declare class DataGrid extends React.PureComponent<DataGridProps, DataGri
     private pageIndexRef;
     state: DataGridState;
     componentWillMount(): void;
+    componentDidMount(): void;
     componentDidUpdate(prevProps: DataGridProps): void;
     getSelectedRows: () => DataGridRow[];
     updateRows: (rows: DataGridRow[], totalItems?: number | undefined) => void;
     updateColumns: (cols: DataGridColumn[]) => void;
     getAllRows: () => DataGridRow[];
+    hideLoader(): void;
+    showLoader(): void;
     private setInitalState;
     private setInitalStateForPagination;
     private getTotalPages;
@@ -239,6 +244,8 @@ export declare class DataGrid extends React.PureComponent<DataGridProps, DataGri
     private buildEmptyColumn;
     private buildSelectCell;
     private buildDataGridBody;
+    private buildPlaceHolderContainer;
+    private buildEmptyPlaceholder;
     private buildDataGridHeader;
     private buildDataGridColumn;
     private buildDataGridRow;
@@ -250,6 +257,7 @@ export declare class DataGrid extends React.PureComponent<DataGridProps, DataGri
     private buildHideShowColumnsBtn;
     private buildFooterContent;
     private buildDataGridFooter;
+    buildDataGridSpinner(): React.ReactElement;
     render(): JSX.Element;
 }
 export {};

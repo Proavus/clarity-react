@@ -70,6 +70,7 @@ var DataGridFilter = /** @class */ (function (_super) {
         };
         _this.updateFilter = function (value) {
             var _a = _this.props, columnName = _a.columnName, datagridRef = _a.datagridRef, onFilter = _a.onFilter;
+            datagridRef.current.showLoader();
             // get latest data from grid
             var rows = datagridRef.current.getAllRows();
             if (onFilter && datagridRef) {
@@ -78,6 +79,7 @@ var DataGridFilter = /** @class */ (function (_super) {
                     // Update datagrid rows
                     var rows = data.rows, totalItems = data.totalItems;
                     datagridRef.current.updateRows(rows, totalItems);
+                    datagridRef.current.hideLoader();
                 });
             }
         };
@@ -137,7 +139,7 @@ var DataGridFilter = /** @class */ (function (_super) {
         var _this = this;
         var filterValue = this.filterValue;
         var transformVal = this.state.transformVal;
-        var _a = this.props, style = _a.style, className = _a.className, filterType = _a.filterType, customFilter = _a.customFilter, placeholder = _a.placeholder;
+        var _a = this.props, style = _a.style, className = _a.className, filterType = _a.filterType, customFilter = _a.customFilter, placeholder = _a.placeholder, columnName = _a.columnName;
         return (React.createElement("div", null,
             React.createElement("span", { className: ClassNames_1.ClassNames.OFFSCREEN_FOCUS_REBOUNDER }),
             React.createElement("span", { className: ClassNames_1.ClassNames.OFFSCREEN_FOCUS_REBOUNDER }),
@@ -148,7 +150,7 @@ var DataGridFilter = /** @class */ (function (_super) {
                     React.createElement(button_1.Button, { className: ClassNames_1.ClassNames.DATAGRID_FILTER_POPUP_CLOSE, defaultBtn: false, onClick: this.handleButtonClick, icon: {
                             shape: "close",
                         } })),
-                filterType === FilterType.STR ? (React.createElement("input", { className: ClassNames_1.ClassNames.CLR_INPUT, name: "search", type: "text", placeholder: placeholder, defaultValue: filterValue, onChange: function (evt) {
+                filterType === FilterType.STR ? (React.createElement("input", { className: ClassNames_1.ClassNames.CLR_INPUT, type: "search", name: "name-" + columnName, placeholder: placeholder, defaultValue: filterValue, onChange: function (evt) {
                         _this.updateFilter(evt.target.value);
                     } })) : (filterType === FilterType.CUSTOM && customFilter && customFilter)),
             React.createElement("span", { className: ClassNames_1.ClassNames.OFFSCREEN_FOCUS_REBOUNDER })));

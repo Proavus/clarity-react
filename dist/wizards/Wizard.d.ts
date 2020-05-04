@@ -177,7 +177,7 @@ export declare class Wizard extends React.PureComponent<WizardProps> {
     previousButtonClick(): void;
     finishButtonClick(): void;
     private modifyButtonStates;
-    navigationClick(step: WizardStep): void;
+    navigationClick(stepId: number): void;
     private getStepNavClasses;
     checkStepValidity(stepId: number): {
         validState: boolean;
