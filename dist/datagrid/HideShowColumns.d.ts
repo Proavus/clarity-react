@@ -27,14 +27,12 @@ export declare type HideShowColumnsProps = {
 };
 /**
  * State for HideShowColumns :
- * @param {columns} datagrid columns
  * @param {isOpen} true if hide and columns menu is open
  * @param {transformVal} CSS value for transform attribute
  * @param {SelectAll} true if all columns has selected
  */
 declare type HideShowColumnsState = {
     isOpen: boolean;
-    columns: DataGridColumn[];
     transformVal: string;
     SelectAll: boolean;
 };

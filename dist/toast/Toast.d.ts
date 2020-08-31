@@ -8,6 +8,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 import * as React from "react";
+import { ReactNode } from "react";
 export declare enum Direction {
     TOP_RIGHT = "top-right",
     BOTTOM_LEFT = "bottom-left",
@@ -69,6 +70,6 @@ export declare class Toast extends React.PureComponent<ToastProps> {
     showToast(props?: Readonly<ToastProps> & Readonly<{
         children?: React.ReactNode;
     }>, state?: ToastState): boolean;
-    render(): React.ReactPortal | null;
+    render(): ReactNode;
 }
 export {};

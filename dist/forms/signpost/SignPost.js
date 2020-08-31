@@ -32,14 +32,27 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SignPost = exports.SignPostDirection = void 0;
 var React = __importStar(require("react"));
 var utils_1 = require("../../utils");
 var button_1 = require("../button");
@@ -133,7 +146,7 @@ var SignPost = /** @class */ (function (_super) {
             isOpen && (React.createElement("div", { ref: this.refChild, className: utils_1.classNames([
                     "signpost-content",
                     direction,
-                ]), style: __assign({}, style, { position: "absolute", top: "0px", bottom: "auto", left: "0px", right: "auto", transform: transformVal }) },
+                ]), style: __assign(__assign({}, style), { position: "absolute", top: "0px", bottom: "auto", left: "0px", right: "auto", transform: transformVal }) },
                 React.createElement("div", { className: "signpost-flex-wrap" },
                     React.createElement("div", { className: "popover-pointer" }),
                     showCloseButton && (React.createElement("div", { className: "signpost-content-header" },

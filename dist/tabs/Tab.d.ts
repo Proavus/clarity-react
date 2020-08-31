@@ -72,7 +72,7 @@ declare type TabProp = {
 export declare class Tab extends React.PureComponent<TabProp, TabState> {
     constructor(props: TabProp);
     initializeTabs: () => void;
-    tabClicked: (evt: React.MouseEvent<HTMLElement, MouseEvent>, clickedTab: TabPane) => void;
+    tabClicked: (evt: React.MouseEvent<HTMLElement>, clickedTab: TabPane) => void;
     private renderTab;
     private renderTabList;
     private renderOverflowTab;

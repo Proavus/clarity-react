@@ -28,6 +28,7 @@ import * as React from "react";
  * @param {rowType} Expandable or compact row type
  * @param {itemText} label to display for all items
  * @param {pagination} pagination support
+ * @param {selectedRowCount} number of selected rows across all pages
  * @param {dataqa} quality engineering tag
  */
 declare type DataGridProps = {
@@ -37,12 +38,13 @@ declare type DataGridProps = {
     columns: DataGridColumn[];
     rows?: DataGridRow[];
     footer?: DataGridFooter;
-    onRowSelect?: Function;
-    onSelectAll?: Function;
+    onRowSelect?: (selectedRow?: DataGridRow) => any;
+    onSelectAll?: (areAllSelected?: boolean) => any;
     keyfield?: string;
     rowType?: GridRowType;
     itemText?: string;
     pagination?: DataGridPaginationProps;
+    selectedRowCount?: number;
     dataqa?: string;
 };
 /**
@@ -64,7 +66,7 @@ export declare type DataGridColumn = {
     style?: any;
     filter?: React.ReactNode;
     isVisible?: boolean;
-    width?: string;
+    width?: number;
 };
 /**
  * type for DataGridRow :
@@ -107,8 +109,16 @@ export declare type DataGridFooter = {
     footerData?: any;
     className?: string;
     style?: any;
-    hideShowColBtn?: boolean;
+    hideShowColumns?: DataGRidHideShowColumns;
     showFooter: boolean;
+};
+/**
+ * type for DataGridFooter hide show columns :
+ * @param {updateDataGridColumns} Function to update datagrid columns in parent
+ */
+export declare type DataGRidHideShowColumns = {
+    hideShowColBtn: boolean;
+    updateDataGridColumns?: (columns: DataGridColumn[]) => void;
 };
 /**
  * type for DataGridSort :
@@ -198,12 +208,14 @@ declare type DataGridPaginationState = {
     pageSizes?: number[];
     compactFooter?: boolean;
 };
+export declare const DEFAULT_COLUMN_WIDTH = 100;
 /**
  * DataGrid Componnet :
  * Displays data in grid format
  */
 export declare class DataGrid extends React.PureComponent<DataGridProps, DataGridState> {
     private pageIndexRef;
+    private datagridTableRef;
     state: DataGridState;
     componentWillMount(): void;
     componentDidMount(): void;
@@ -211,6 +223,7 @@ export declare class DataGrid extends React.PureComponent<DataGridProps, DataGri
     getSelectedRows: () => DataGridRow[];
     updateRows: (rows: DataGridRow[], totalItems?: number | undefined) => void;
     updateColumns: (cols: DataGridColumn[]) => void;
+    updateColumnWidth: (col: DataGridColumn) => void;
     getAllRows: () => DataGridRow[];
     hideLoader(): void;
     showLoader(): void;
@@ -255,6 +268,7 @@ export declare class DataGrid extends React.PureComponent<DataGridProps, DataGri
     private buildPageButtons;
     private buildDataGridPagination;
     private buildHideShowColumnsBtn;
+    private buildSelectedRowCount;
     private buildFooterContent;
     private buildDataGridFooter;
     buildDataGridSpinner(): React.ReactElement;

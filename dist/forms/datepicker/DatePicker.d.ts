@@ -32,13 +32,13 @@ export declare class DatePicker extends React.PureComponent<DatePickerProps, Dat
     private inputRef;
     static validDate(date: Date): Date;
     state: DatePickerState;
-    readonly value: string;
+    get value(): string;
     handleToggle(): void;
     toggle(isOpen?: boolean): void;
     afterToggle: () => void;
     subscribeDocumentClick: () => void;
     unsubscribeDocumentClick: () => void;
-    handleDocumentClick: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    handleDocumentClick: (evt: React.MouseEvent<HTMLElement>) => void;
     handleSelectedDate(date: Date): void;
     afterSelectedDate: () => void;
     toggleViewMode(mode: ViewMode): void;

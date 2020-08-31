@@ -44,7 +44,7 @@ export declare type CardProps = {
     onClick?: (evt: React.MouseEvent<HTMLElement>) => void;
 };
 export declare class Card extends React.PureComponent<CardProps> {
-    handleClick: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    handleClick: (evt: React.MouseEvent<HTMLElement>) => void;
     render(): JSX.Element;
 }
 export {};

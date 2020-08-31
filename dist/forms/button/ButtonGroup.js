@@ -21,14 +21,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ButtonGroup = void 0;
 var React = __importStar(require("react"));
 var radio_1 = require("../radio");
 var utils_1 = require("../../utils");
@@ -44,15 +57,14 @@ var ButtonGroup = /** @class */ (function (_super) {
             if (onChange)
                 onChange(evt);
         };
-        var defaultValue = props.defaultValue;
-        if (defaultValue)
-            _this.state = { value: defaultValue };
+        var defaultValue = props.defaultValue, selectedValue = props.selectedValue;
+        _this.state = { value: selectedValue ? selectedValue : defaultValue };
         return _this;
     }
     ButtonGroup.prototype.componentDidUpdate = function (prevProps) {
-        var defaultValue = this.props.defaultValue;
-        if (!(defaultValue === prevProps.defaultValue)) {
-            this.setState({ value: defaultValue });
+        var _a = this.props, selectedValue = _a.selectedValue, defaultValue = _a.defaultValue;
+        if (selectedValue !== prevProps.selectedValue || defaultValue !== prevProps.defaultValue) {
+            this.setState({ value: selectedValue ? selectedValue : defaultValue });
         }
     };
     ButtonGroup.prototype.renderChildren = function () {

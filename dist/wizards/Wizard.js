@@ -21,14 +21,34 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Wizard = exports.WizardValidationType = exports.WizardSize = void 0;
 var React = __importStar(require("react"));
 var ReactDOM = __importStar(require("react-dom"));
 var icon_1 = require("../icon");
@@ -133,7 +153,7 @@ var Wizard = /** @class */ (function (_super) {
             _this.setState({
                 disableNextButton: _this.state.disableNextButton !== disableNext ? disableNext : undefined,
                 disableFinishButton: _this.state.disableFinishButton !== disableFinish ? disableFinish : undefined,
-                allSteps: _this.state.allSteps.concat([
+                allSteps: __spreadArrays(_this.state.allSteps, [
                     ((_this.state.allSteps[step.stepId].stepCompleted = false),
                         (_this.state.allSteps[step.stepId].disableNav = disableNav)),
                 ]),
@@ -147,6 +167,10 @@ var Wizard = /** @class */ (function (_super) {
     /* ##########  Wizard private methods start  ############ */
     Wizard.prototype.getStepObj = function (stepId) {
         return this.state.allSteps[stepId];
+    };
+    // Function to return details of current step
+    Wizard.prototype.getCurrentStepDetails = function () {
+        return this.getStepObj(this.state.currentStepId);
     };
     // Close the wizard
     Wizard.prototype.close = function () {
@@ -164,7 +188,7 @@ var Wizard = /** @class */ (function (_super) {
         var steps = this.props.steps;
         steps.map(function (step, key) {
             _this.setState({
-                allSteps: _this.state.allSteps.concat([(_this.state.allSteps[step.stepId].stepCompleted = false)]),
+                allSteps: __spreadArrays(_this.state.allSteps, [(_this.state.allSteps[step.stepId].stepCompleted = false)]),
             });
         });
         this.setState(this.initialState);
@@ -242,6 +266,7 @@ var Wizard = /** @class */ (function (_super) {
     Wizard.prototype.modifyButtonStates = function (stepId) {
         var _a = this.props, steps = _a.steps, validationType = _a.validationType, showPreviousButton = _a.showPreviousButton, showCancelButton = _a.showCancelButton;
         var step = this.getStepObj(stepId);
+        this.scrollToTop();
         if (stepId === 0) {
             /* for first step : If currenst step is first step of workflow
           then hide privious button and show next button */
@@ -318,7 +343,7 @@ var Wizard = /** @class */ (function (_super) {
             this.setState({
                 disableNextButton: this.state.disableNextButton !== disableNext ? disableNext : undefined,
                 disableFinishButton: this.state.disableFinishButton !== disableNext ? disableNext : undefined,
-                allSteps: this.state.allSteps.concat([
+                allSteps: __spreadArrays(this.state.allSteps, [
                     ((currenstStep.stepCompleted = validationState), (nextStep.disableNav = disableNext)),
                 ]),
             });
@@ -346,11 +371,13 @@ var Wizard = /** @class */ (function (_super) {
     // Build DOM for Wizard footer
     Wizard.prototype.buildWizardFooter = function () {
         var _a = this.props, cancelButtonText = _a.cancelButtonText, // prettier
-        nextButtonText = _a.nextButtonText, previousButtonText = _a.previousButtonText, finishButtonText = _a.finishButtonText, nextButtonClassName = _a.nextButtonClassName, previousButtonClassName = _a.previousButtonClassName, finishButtonClassName = _a.finishButtonClassName, cancelButtonClassName = _a.cancelButtonClassName, children = _a.children;
-        var _b = this.state, showPreviousButton = _b.showPreviousButton, showNextButton = _b.showNextButton, showFinishButton = _b.showFinishButton, showCancelButton = _b.showCancelButton;
+        nextButtonText = _a.nextButtonText, previousButtonText = _a.previousButtonText, finishButtonText = _a.finishButtonText, nextButtonClassName = _a.nextButtonClassName, previousButtonClassName = _a.previousButtonClassName, finishButtonClassName = _a.finishButtonClassName, cancelButtonClassName = _a.cancelButtonClassName, customFooter = _a.customFooter;
+        var _b = this.state, showPreviousButton = _b.showPreviousButton, showNextButton = _b.showNextButton, showFinishButton = _b.showFinishButton, showCancelButton = _b.showCancelButton, currentStepId = _b.currentStepId;
+        var stepObj = this.getStepObj(currentStepId);
         return (React.createElement("div", { className: ClassNames_1.ClassNames.WIZARD_FOOTER },
             React.createElement("div", { className: ClassNames_1.ClassNames.WIZARD_FOOTER_BUTTON },
-                children,
+                customFooter,
+                stepObj.stepFooter,
                 showCancelButton && (React.createElement(button_1.Button, { key: cancelButtonText, className: cancelButtonClassName, link: true, dataqa: dataqa_wizard_btn_cancel, onClick: this.close.bind(this) },
                     cancelButtonText,
                     " ")),
@@ -373,11 +400,9 @@ var Wizard = /** @class */ (function (_super) {
     Wizard.prototype.buildWizardNav = function () {
         var _this = this;
         var _a = this.props, steps = _a.steps, title = _a.title, showNav = _a.showNav;
-        return (React.createElement(vertical_nav_1.VerticalNav, { className: ClassNames_1.ClassNames.WIZARD_STEPNAV_WRAPPER },
-            React.createElement("h3", { className: ClassNames_1.ClassNames.WIZARD_TITLE },
-                " ",
-                title,
-                " "),
+        return (React.createElement(vertical_nav_1.VerticalNav, { className: utils_1.classNames([ClassNames_1.ClassNames.WIZARD_STEPNAV_WRAPPER, ClassNames_1.ClassNames.NG_TNS]), style: ClassNames_1.Styles.WIZARD_STEPNAV_WRAPPER_STYLE },
+            React.createElement("h2", { className: ClassNames_1.ClassNames.WIZARD_TITLE },
+                React.createElement("span", { style: ClassNames_1.Styles.WIZARD_TITLE_STYLE }, title)),
             showNav && (React.createElement("div", { className: ClassNames_1.ClassNames.WIZARD_STEPNAV }, steps.map(function (step, key) {
                 return (React.createElement("div", { className: utils_1.classNames(_this.getStepNavClasses(step.stepId)) },
                     React.createElement(button_1.Button, { disabled: _this.state.allSteps[step.stepId].disableNav, link: true, className: "clr-wizard-stepnav-link", onClick: _this.navigationClick.bind(_this, step.stepId), icon: _this.buildStepIcon(step) },
@@ -385,7 +410,6 @@ var Wizard = /** @class */ (function (_super) {
                         step.customStepNav !== undefined && step.customStepNav.stepNavTitle
                             ? step.customStepNav.stepNavTitle
                             : step.stepName,
-                        " ",
                         "\u00A0",
                         step.customStepNav !== undefined && step.customStepNav.stepNavChildren)));
             })))));
@@ -417,28 +441,35 @@ var Wizard = /** @class */ (function (_super) {
                     isInline && ClassNames_1.ClassNames.WIZARD_INLINE + " " + ClassNames_1.ClassNames.WIZARD_NO_SHADOW,
                     ClassNames_1.ClassNames.WIZARD,
                     wizardSize,
+                    ClassNames_1.ClassNames.NG_TNS,
                     ClassNames_1.ClassNames.WIZARD_OPEN,
                     className,
                 ]), style: style },
+                React.createElement("span", { className: "offscreen-focus-rebounder ng-tns-c167-4 ng-star-inserted" }),
                 React.createElement("div", { className: ClassNames_1.ClassNames.WIZARD_MODAL },
-                    React.createElement("div", { className: ClassNames_1.ClassNames.WIZARD_MODAL_DIALOG + " " + modalSize, role: "dialog", "aria-hidden": "false", "aria-labelledby": "clr-id-3" },
+                    React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.WIZARD_MODAL_DIALOG, modalSize]), role: "dialog", "aria-hidden": "false", "aria-labelledby": "clr-id-3" },
+                        React.createElement("div", { "_ngcontent-clarity-c167": "", className: "clr-sr-only ng-tns-c167-4" }),
                         React.createElement("div", { className: ClassNames_1.ClassNames.WIZARD_OUTER_WRAPPER, style: ClassNames_1.Styles.WIZARD_OUTER_WRAPPER },
-                            React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_CONTENT_WRAPPER },
+                            React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.MODAL_CONTENT_WRAPPER, ClassNames_1.ClassNames.NG_TNS]) },
                                 this.buildWizardNav(),
-                                React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_CONTENT },
-                                    React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_HEADER },
-                                        closable && (React.createElement("button", { "aria-label": "Close", className: "close", type: "button", onClick: this.close.bind(this) },
+                                React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.MODAL_CONTENT, ClassNames_1.ClassNames.NG_TNS]) },
+                                    React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.MODAL_HEADER, ClassNames_1.ClassNames.NG_TNS]) },
+                                        closable && (React.createElement("button", { "aria-label": "Close", className: utils_1.classNames([
+                                                ClassNames_1.ClassNames.CLOSE,
+                                                ClassNames_1.ClassNames.NG_TNS,
+                                                ClassNames_1.ClassNames.NG_STAR_INSERTED,
+                                            ]), type: "button", onClick: this.close.bind(this) },
                                             React.createElement(icon_1.Icon, { "aria-hidden": true, shape: "close" }))),
-                                        React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_TITLE_WRAPPER },
-                                            React.createElement("h3", { className: ClassNames_1.ClassNames.MODAL_TITLE, style: ClassNames_1.Styles.MODAL_TITELE },
+                                        React.createElement("div", { className: utils_1.classNames([
+                                                ClassNames_1.ClassNames.MODAL_TITLE_WRAPPER,
+                                                ClassNames_1.ClassNames.NG_TNS,
+                                            ]) },
+                                            React.createElement("h3", { className: utils_1.classNames([ClassNames_1.ClassNames.MODAL_TITLE, ClassNames_1.ClassNames.NG_TNS]), style: ClassNames_1.Styles.MODAL_TITLE_STYLE },
                                                 React.createElement("span", { className: ClassNames_1.ClassNames.MODAL_TITLE_TEXT }, steps[this.state.currentStepId].showStepTitle !== false &&
                                                     steps[this.state.currentStepId].stepName)))),
-                                    " ",
                                     React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_BODY }, this.buildWizardSteps()),
                                     " ",
-                                    this.buildWizardFooter()),
-                                " "),
-                            " ",
+                                    this.buildWizardFooter())),
                             React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_GHOST_WRAPPER },
                                 React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_GHOST_1, style: ClassNames_1.Styles.MODAL_GHOST_1 }),
                                 React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_GHOST_2, style: ClassNames_1.Styles.MODAL_GHOST_2 }))),
@@ -455,6 +486,10 @@ var Wizard = /** @class */ (function (_super) {
         dataqa_wizard_btn_next = dataqa_wizard_btn_next.replace(new RegExp("^" + prefix), dataqa);
         dataqa_wizard_btn_finish = dataqa_wizard_btn_finish.replace(new RegExp("^" + prefix), dataqa);
         dataqa_wizard = dataqa_wizard.replace(new RegExp("^" + prefix), dataqa);
+    };
+    // Function to keep scroll bar on top on step change
+    Wizard.prototype.scrollToTop = function () {
+        document.getElementsByClassName("modal-body")[0].scrollTo(0, 0);
     };
     /* ##########  Wizard private methods end  ############ */
     Wizard.prototype.render = function () {

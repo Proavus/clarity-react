@@ -8,19 +8,60 @@
  *
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var react_1 = require("@storybook/react");
+var storybook_state_1 = require("@sambego/storybook-state");
 var _1 = require(".");
 var DataGridValues_1 = require("./DataGridValues");
 var CustomFilter_1 = require("./CustomFilter");
+var store = new storybook_state_1.Store({
+    selectedRows: DataGridValues_1.selectedRows,
+    rows: DataGridValues_1.paginationRows.slice(0, 5),
+    selectRowCallback: function (row) {
+        var rowID = row && row.rowData[0].cellData;
+        var index = DataGridValues_1.selectedRows.indexOf(rowID);
+        if (row && row.isSelected) {
+            // add element
+            DataGridValues_1.selectedRows.push(rowID);
+        }
+        else {
+            //remove element
+            DataGridValues_1.selectedRows.splice(index, 1);
+        }
+        store.set({
+            selectedRows: DataGridValues_1.selectedRows,
+        });
+    },
+    selectAllCallback: function (allSelected) {
+        var selectedRows;
+        if (allSelected) {
+            selectedRows = [41512, 16166, 30574, 2459, 14262];
+        }
+        store.set({
+            selectedRows: allSelected ? selectedRows : [],
+        });
+    },
+});
 // Refrence to call dataGrid methods
 var datagridRef = React.createRef();
 var datagridActionsRef = React.createRef();
@@ -110,15 +151,15 @@ react_1.storiesOf("DataGrid", module)
     .add("Grid with pagination and compact footer", function () { return (React.createElement("div", { style: { width: "40%" } },
     React.createElement(_1.DataGrid, { columns: DataGridValues_1.normalColumns, rows: DataGridValues_1.paginationRows.slice(0, 5), pagination: DataGridValues_1.paginationDetailsWithCompactFooter, itemText: "Users", footer: { showFooter: true } }))); })
     .add("Grid with HIde and Show Column", function () { return (React.createElement("div", { style: { width: "80%", paddingTop: "5%" } },
-    React.createElement(_1.DataGrid, { columns: DataGridValues_1.hideableColumns, rows: DataGridValues_1.normalRows, footer: {
-            hideShowColBtn: true,
-            showFooter: true,
-        } }))); })
+    React.createElement(_1.DataGrid, { columns: DataGridValues_1.hideableColumns, rows: DataGridValues_1.normalRows, footer: DataGridValues_1.hideShowColFooter }))); })
+    .add("Grid show selected row count", function () { return (React.createElement(storybook_state_1.State, { store: store }, function (state) { return (React.createElement("div", { style: { width: "80%", paddingTop: "5%" } },
+    React.createElement(_1.DataGrid, { itemText: "Users", columns: DataGridValues_1.normalColumns, rows: DataGridValues_1.paginationRows.slice(0, 5), pagination: DataGridValues_1.paginationDetails, selectionType: _1.GridSelectionType.MULTI, selectedRowCount: state.selectedRows.length, onRowSelect: state.selectRowCallback, onSelectAll: state.selectAllCallback, footer: { showFooter: true } }))); })); })
     .add("Grid full demo", function () { return (React.createElement("div", { style: { width: "80%", paddingTop: "5%" } },
     React.createElement(_1.DataGrid, { ref: datagridFullDemoRef, itemText: "Users", columns: [
             {
                 columnName: "User ID",
                 style: { width: "20%" },
+                isVisible: false,
                 sort: { defaultSortOrder: _1.SortOrder.ASC, sortFunction: DataGridValues_1.sortFunction },
                 filter: (React.createElement(_1.DataGridFilter, { onFilter: DataGridValues_1.pageFilterFunction, columnName: "User ID", datagridRef: datagridFullDemoRef })),
             },
@@ -130,7 +171,4 @@ react_1.storiesOf("DataGrid", module)
             },
             { columnName: "Creation Date", style: { width: "20%" } },
             { columnName: "Favorite color", style: { width: "20%" } },
-        ], rows: DataGridValues_1.paginationRows.slice(0, 5), pagination: DataGridValues_1.paginationDetails, selectionType: _1.GridSelectionType.MULTI, footer: {
-            hideShowColBtn: true,
-            showFooter: true,
-        } }))); });
+        ], rows: DataGridValues_1.paginationRows.slice(0, 5), pagination: DataGridValues_1.paginationDetails, selectionType: _1.GridSelectionType.MULTI, footer: DataGridValues_1.hideShowColFooter }))); });

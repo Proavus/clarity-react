@@ -21,14 +21,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.VerticalNavCodes = exports.VerticalNav = void 0;
 var React = __importStar(require("react"));
 var icon_1 = require("../../icon");
 var nav_1 = require("../nav");
@@ -113,8 +126,8 @@ var VerticalNav = /** @class */ (function (_super) {
     };
     VerticalNav.prototype.render = function () {
         var isCollapsed = this.state.isCollapsed;
-        var dataqa = this.props.dataqa;
-        return (React.createElement("div", { className: this.getClassList().join(" "), "data-qa": dataqa },
+        var _a = this.props, dataqa = _a.dataqa, style = _a.style;
+        return (React.createElement("div", { className: this.getClassList().join(" "), style: style, "data-qa": dataqa },
             this.props.isCollapsible && (React.createElement("button", { type: "button", className: "nav-trigger", onClick: this.toggleVertical.bind(this) },
                 React.createElement(icon_1.Icon, { shape: "angle-double", className: "nav-trigger-icon", dir: isCollapsed ? icon_1.Direction.RIGHT : icon_1.Direction.LEFT }))),
             React.createElement("div", { className: "nav-content" },

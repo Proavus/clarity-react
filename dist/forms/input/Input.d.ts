@@ -20,6 +20,8 @@ declare type InputProps = {
     isBoxed?: boolean;
     onChange?: (evt: React.ChangeEvent<HTMLInputElement>) => void;
     onBlur?: (evt: React.FocusEvent<HTMLInputElement>) => void;
+    onKeyDown?: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
+    onKeyPress?: (evt: React.KeyboardEvent<HTMLInputElement>) => void;
     placeholder?: string;
     name: string;
     id?: string;
@@ -28,6 +30,7 @@ declare type InputProps = {
     size?: number;
     min?: number;
     max?: number;
+    step?: any;
     required?: boolean;
     error?: boolean;
     dataqa?: string;

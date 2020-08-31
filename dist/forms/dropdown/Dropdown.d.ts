@@ -59,7 +59,7 @@ export declare class Dropdown extends React.PureComponent<DropdownProps> {
     afterToggle: () => void;
     subscribeDocumentClick: () => void;
     unsubscribeDocumentClick: () => void;
-    handleDocumentClick: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    handleDocumentClick: (evt: React.MouseEvent<HTMLElement>) => void;
     getClassListMain(): (string | undefined)[];
     getClassListButton(): (string | undefined)[];
     handleItemClick: (item: DropdownItem, itemPath?: string) => Promise<undefined>;

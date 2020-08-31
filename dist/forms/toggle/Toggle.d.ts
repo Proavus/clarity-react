@@ -9,7 +9,7 @@
  */
 import * as React from "react";
 /**
- * @param {id } id for toggle;
+ * @param { id } id for toggle;
  * @param { label } label for toggle;
  * @param { name } name for toggle;
  * @param { ariaLabelledby } aria label;
@@ -35,6 +35,7 @@ declare type ToggleState = {
 };
 export declare class Toggle extends React.PureComponent<ToggleProps, ToggleState> {
     constructor(props: ToggleProps);
+    componentDidUpdate(prevProps: ToggleProps): void;
     getValue(): boolean;
     handleChange(evt: React.ChangeEvent<HTMLInputElement>): void;
     render(): JSX.Element;

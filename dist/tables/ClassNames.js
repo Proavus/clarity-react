@@ -9,6 +9,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ClassNames = void 0;
 var ClassNames = /** @class */ (function () {
     function ClassNames() {
     }

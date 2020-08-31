@@ -11,14 +11,16 @@ import * as React from "react";
 /**
  * @param {isCollapsible} for collapsing;
  * @param {collapseButtonOnBottom} for collapse button;
- * @param { className} for css style;
- * @param { dataqa} for Quality Engineering
+ * @param {className} for css classname;
+ * @param {dataqa} for Quality Engineering
+ * @param {style} for css style;
  */
 declare type VerticalNavProps = {
     isCollapsible?: boolean;
     collapseButtonOnBottom?: boolean;
     className?: string;
     dataqa?: string;
+    style?: any;
 };
 declare type VerticalNavState = {
     isCollapsed: boolean;

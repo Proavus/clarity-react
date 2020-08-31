@@ -26,7 +26,7 @@ export declare type ButtonProps = {
     icon?: IconProps;
     defaultBtn?: boolean;
     show?: boolean;
-    type?: string;
+    type?: "button" | "reset" | "submit";
     value?: string;
     dataqa?: string;
 };

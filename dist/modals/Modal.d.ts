@@ -8,6 +8,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 import * as React from "react";
+import { ReactNode } from "react";
 /**
  * @param {isOpen} property stating if modal open
  * @param {size} size of modal
@@ -48,6 +49,6 @@ export declare class Modal extends React.PureComponent<ModalProps> {
     isOpen(props?: Readonly<ModalProps> & Readonly<{
         children?: React.ReactNode;
     }>, state?: ModalState): boolean;
-    render(): React.ReactPortal | null;
+    render(): ReactNode;
 }
 export {};

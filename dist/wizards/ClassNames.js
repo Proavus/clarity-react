@@ -9,13 +9,14 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Styles = exports.ClassNames = void 0;
 var ClassNames = /** @class */ (function () {
     function ClassNames() {
     }
     ClassNames.WIZARD = "clr-wizard";
     ClassNames.WIZARD_OPEN = "open";
-    ClassNames.WIZARD_MODAL = "modal ng-tns-c9-2 ng-star-inserted";
-    ClassNames.WIZARD_MODAL_DIALOG = "modal-dialog ng-trigger ng-trigger-fadeDown";
+    ClassNames.WIZARD_MODAL = "modal ng-tns-c167-4 ng-star-inserted";
+    ClassNames.WIZARD_MODAL_DIALOG = "modal-dialog ng-tns-c167-4 ng-trigger ng-trigger-fadeDown";
     ClassNames.WIZARD_OUTER_WRAPPER = "modal-outer-wrapper";
     ClassNames.MODAL_CONTENT_WRAPPER = "modal-content-wrapper";
     ClassNames.WIZARD_CONTENT = "clr-wizard-content";
@@ -43,6 +44,9 @@ var ClassNames = /** @class */ (function () {
     ClassNames.ACTIVE = "active";
     ClassNames.COMPLETE = "complete";
     ClassNames.ERROR = "error";
+    ClassNames.NG_TNS = "ng-tns-c167-4";
+    ClassNames.CLOSE = "close";
+    ClassNames.NG_STAR_INSERTED = "ng-star-inserted";
     return ClassNames;
 }());
 exports.ClassNames = ClassNames;
@@ -51,7 +55,9 @@ var Styles = /** @class */ (function () {
     }
     Styles.MODAL_GHOST_2 = { left: "-24px", top: "24px", bottom: "24px" };
     Styles.MODAL_GHOST_1 = { left: "-24px" };
-    Styles.MODAL_TITELE = { paddingTop: "0.5rem" };
+    Styles.WIZARD_STEPNAV_WRAPPER_STYLE = { paddingTop: "0" };
+    Styles.WIZARD_TITLE_STYLE = { marginTop: "-0.3rem" };
+    Styles.MODAL_TITLE_STYLE = { marginTop: "-0.17rem" };
     Styles.WIZARD_OUTER_WRAPPER = { height: "100%", width: "100%" };
     return Styles;
 }());

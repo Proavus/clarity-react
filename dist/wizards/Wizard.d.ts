@@ -8,6 +8,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 import * as React from "react";
+import { ReactNode } from "react";
 /**
  * General component description :
  * Wizard :
@@ -25,6 +26,7 @@ import * as React from "react";
  * @param {stepCompleted} flag to check if step is valid and complete
  * @param {customStepNav} custom navigation details for step
  * @param {disableNav} if true then navigation for step is disabled
+ * @param {stepFooter} custom footer for step
  * @param {isStepValid} function to check validity of step
  * @param {onStepSubmit} function to perform on step submission
  */
@@ -36,6 +38,7 @@ declare type WizardStep = {
     stepCompleted?: boolean;
     customStepNav?: WizardStepNavDetails;
     disableNav?: boolean;
+    stepFooter?: React.ReactElement;
     isStepValid?: Function;
     onStepSubmit?: () => Promise<any>;
 };
@@ -72,6 +75,7 @@ declare type WizardStepNavDetails = {
  * @param {cancelButtonText} custom text for cancel button
  * @param {showCancelButton} if true show cancel button on wizard else hide
  * @param {cancelButtonClassName} extranla CSS for cancel button
+ * @param {customFooter} custom footer for all steps
  * @param {navLinkClasses} extranal css class for navigation links
  * @param {validationType} validation type for wizard steps
  * @param {dataqa} Quality Engineering field
@@ -99,6 +103,7 @@ declare type WizardProps = {
     showCancelButton?: boolean;
     cancelButtonClassName?: string;
     onClose?: Function;
+    customFooter?: React.ReactElement;
     navLinkClasses?: string;
     validationType?: WizardValidationType;
     style?: any;
@@ -170,6 +175,7 @@ export declare class Wizard extends React.PureComponent<WizardProps> {
     private initStepsState;
     componentWillUnmount(): void;
     private getStepObj;
+    getCurrentStepDetails(): WizardStep;
     close(): void;
     show(): void;
     resetWizard(): void;
@@ -195,6 +201,7 @@ export declare class Wizard extends React.PureComponent<WizardProps> {
     private buildWizardSteps;
     private buildWizard;
     updateDataQAStrings(dataqa: string): void;
-    render(): React.ReactPortal | null;
+    scrollToTop(): void;
+    render(): ReactNode;
 }
 export {};

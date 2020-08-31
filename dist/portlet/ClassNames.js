@@ -9,6 +9,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Styles = void 0;
 var Styles = /** @class */ (function () {
     function Styles() {
     }

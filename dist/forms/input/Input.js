@@ -21,14 +21,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Input = void 0;
 var React = __importStar(require("react"));
 var utils = __importStar(require("../../utils"));
 var react_uid_1 = require("react-uid");
@@ -47,10 +60,11 @@ var Input = /** @class */ (function (_super) {
         };
         //prevents 'e' button click when input type is number
         _this.handleKeyDown = function (evt) {
-            var type = _this.props.type;
+            var _a = _this.props, type = _a.type, onKeyDown = _a.onKeyDown;
             if (type === "number" && evt.key === "e") {
                 evt.preventDefault();
             }
+            onKeyDown && onKeyDown(evt);
         };
         return _this;
     }
@@ -61,9 +75,9 @@ var Input = /** @class */ (function (_super) {
         return React.createElement("label", { className: "clr-control-label" }, label);
     };
     Input.prototype.buildInput = function (className, uid) {
-        var _a = this.props, style = _a.style, disabled = _a.disabled, value = _a.value, defaultValue = _a.defaultValue, placeholder = _a.placeholder, size = _a.size, type = _a.type, children = _a.children, name = _a.name, id = _a.id, required = _a.required, onBlur = _a.onBlur, dataqa = _a.dataqa, min = _a.min, max = _a.max, error = _a.error, errorHelperText = _a.errorHelperText, helperText = _a.helperText;
+        var _a = this.props, style = _a.style, disabled = _a.disabled, value = _a.value, defaultValue = _a.defaultValue, placeholder = _a.placeholder, size = _a.size, type = _a.type, children = _a.children, name = _a.name, id = _a.id, required = _a.required, onBlur = _a.onBlur, onKeyPress = _a.onKeyPress, dataqa = _a.dataqa, min = _a.min, max = _a.max, step = _a.step, error = _a.error, errorHelperText = _a.errorHelperText, helperText = _a.helperText;
         return (React.createElement(React.Fragment, null,
-            React.createElement("input", { type: type || "text", name: name, id: id || uid, value: value, defaultValue: defaultValue, size: size, disabled: disabled, className: className, placeholder: placeholder, "data-qa": dataqa, onChange: this.handleChange, onKeyDown: this.handleKeyDown, onBlur: onBlur, style: style, required: required, min: min, max: max }),
+            React.createElement("input", { type: type || "text", name: name, id: id || uid, value: value, defaultValue: defaultValue, size: size, disabled: disabled, className: className, placeholder: placeholder, "data-qa": dataqa, onChange: this.handleChange, onKeyDown: this.handleKeyDown, onKeyPress: onKeyPress, onBlur: onBlur, style: style, required: required, min: min, max: max, step: step }),
             children,
             React.createElement(icon_1.Icon, { className: "clr-validate-icon", shape: "exclamation-circle" }),
             error

@@ -9,6 +9,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Styles = exports.ClassNames = void 0;
 var ClassNames = /** @class */ (function () {
     function ClassNames() {
     }
@@ -82,6 +83,18 @@ var ClassNames = /** @class */ (function () {
     ClassNames.DATAGRID_SPINNER = "datagrid-spinner";
     ClassNames.DATAGRID_OUTER_WRAPPER = "datagrid-outer-wrapper";
     ClassNames.DATAGRID_INNER_WRAPPER = "datagrid-inner-wrapper";
+    ClassNames.DATAGRID_COL_WIDTH_EXCEEDED_MAX = "exceeded-max";
+    ClassNames.CLR_SR_ONLY = "clr-sr-only";
+    ClassNames.NG_TNS_C81_13 = "ng-tns-c81-13";
+    ClassNames.DRAGGABLE_GHOST = "draggable-ghost";
+    ClassNames.NG_TRIGGER = "ng-trigger";
+    ClassNames.NG_TRIGGER_LEAVE_ANIMATION = "ng-trigger-leaveAnimation";
+    ClassNames.BEING_DRAGGED = "being-dragged";
+    ClassNames.DATAGRID_FOOTER_CHECKBOX = "datagrid-footer-select clr-checkbox-wrapper";
+    ClassNames.DATAGRID_FORM_CONTROL = "clr-form-control-disabled";
+    ClassNames.CLR_SELECT = "ng-untouched ng-pristine ng-valid";
+    ClassNames.CLR_RADIO_WRAPPER = "clr-radio-wrapper";
+    ClassNames.STRICT_WIDTH_CLASS = "datagrid-fixed-width";
     return ClassNames;
 }());
 exports.ClassNames = ClassNames;
@@ -92,6 +105,13 @@ var Styles = /** @class */ (function () {
         textAlign: "left",
         webkitBoxFlex: 1,
         flex: 1,
+    };
+    Styles.DRAGGABLE_GHOST = {
+        visibility: "visible",
+        width: "13px",
+        height: "40px",
+        top: "458px",
+        left: "270px",
     };
     return Styles;
 }());

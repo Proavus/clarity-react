@@ -9,6 +9,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.calculateAxisPosition = void 0;
 var _1 = require(".");
 function calculateAxisPosition(pHeight, pWidth, cHeight, cWidth, direction) {
     var axisTransform = "";

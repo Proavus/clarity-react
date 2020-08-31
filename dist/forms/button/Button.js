@@ -32,14 +32,34 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Button = exports.ButtonSize = exports.ButtonState = void 0;
 var React = __importStar(require("react"));
 var utils_1 = require("../../utils");
 var icon_1 = require("../../icon");
@@ -61,11 +81,10 @@ var Button = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Button.getClassNames = function (props) {
-        return [
+        return __spreadArrays([
             props.defaultBtn && "btn",
-            props.defaultBtn && props.icon && "btn-icon",
-            props.className
-        ].concat(["block", "flat", "inverse", "link", "primary"].map(function (field) {
+            props.defaultBtn && props.icon && "btn-icon"
+        ], ["block", "flat", "inverse", "link", "primary"].map(function (field) {
             var value = props[field];
             if (typeof value === "boolean" && value)
                 return "btn-" + field;
@@ -75,7 +94,9 @@ var Button = /** @class */ (function (_super) {
             if (typeof value !== "undefined" && value !== null)
                 return "btn-" + value;
             return undefined;
-        }));
+        }), [
+            props.className,
+        ]);
     };
     Button.prototype.render = function () {
         var _a = this.props, disabled = _a.disabled, children = _a.children, onClick = _a.onClick, onSubmit = _a.onSubmit, icon = _a.icon, show = _a.show, type = _a.type, value = _a.value, dataqa = _a.dataqa;

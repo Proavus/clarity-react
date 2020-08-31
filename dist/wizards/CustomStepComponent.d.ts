@@ -17,7 +17,7 @@ declare type CustomStepComponentProps = {
 };
 export declare class CustomStepComponent extends React.PureComponent<CustomStepComponentProps, CustomStepComponentState> {
     state: CustomStepComponentState;
-    resetComponent(): Promise<{}>;
+    resetComponent(): Promise<unknown>;
     private handleChange;
     render(): JSX.Element;
 }

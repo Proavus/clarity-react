@@ -21,25 +21,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Password = void 0;
 var React = __importStar(require("react"));
 var utils = __importStar(require("../../utils"));
 var icon_1 = require("../../icon");
@@ -67,7 +69,7 @@ var Password = /** @class */ (function (_super) {
         return _this;
     }
     Password.renderHelperText = function (helperText) {
-        return React.createElement("span", { className: "clr-subtext" }, helperText);
+        return React.createElement("span", { className: "clr-subtext ng-star-inserted" }, helperText);
     };
     Password.renderLabel = function (label) {
         return React.createElement("label", { className: "clr-control-label clr-col-12 clr-col-md-2" }, label);
@@ -84,11 +86,11 @@ var Password = /** @class */ (function (_super) {
                 label && Password.renderLabel(label),
                 React.createElement("div", { className: utils.classNames(classNames), style: { width: "100%" } },
                     React.createElement("div", { className: "clr-input-wrapper" },
-                        React.createElement("div", { className: utils.classNames(["clr-input-group", "clr-row", className]), style: __assign({}, style, { paddingRight: "1rem" }) },
-                            React.createElement("input", { maxLength: maxPasswordLength, minLength: minPasswordLength, name: name, defaultValue: defaultValue, value: value, placeholder: placeholder, required: required, type: type, disabled: disabled, style: { width: "95%" }, className: "clr-input ng-pristine ng-invalid ng-touched clr-col-md-10 clr-col-12", id: id, "data-qa": dataqa, onChange: this.handleChange }),
-                            unmask && (React.createElement(button_1.Button, { defaultBtn: false, className: "clr-input-group-icon-action clr-col-md-2 clr-col-12", onClick: this.showHidePassword, icon: { shape: show ? "eye" : "eye-hide" } },
+                        React.createElement("div", { className: utils.classNames(["clr-input-group", className]), style: style },
+                            React.createElement("input", { maxLength: maxPasswordLength, minLength: minPasswordLength, name: name, defaultValue: defaultValue, value: value, placeholder: placeholder, required: required, type: type, disabled: disabled, style: { width: "95%" }, className: "clr-input ng-pristine ng-invalid ng-touched", id: id, "data-qa": dataqa, onChange: this.handleChange }),
+                            unmask && (React.createElement(button_1.Button, { defaultBtn: false, className: "clr-input-group-icon-action ng-star-inserted", onClick: this.showHidePassword, icon: { shape: show ? "eye" : "eye-hide" } },
                                 React.createElement("span", { className: "is-off-screen" }, "Show"))),
-                            React.createElement(icon_1.Icon, { className: "clr-validate-icon", shape: "exclamation-circle" })),
+                            React.createElement(icon_1.Icon, { className: "clr-validate-icon ng-star-inserted", shape: "exclamation-circle" })),
                         error
                             ? errorHelperText && Password.renderHelperText(errorHelperText)
                             : helperText && Password.renderHelperText(helperText))))));

@@ -12,6 +12,7 @@ import { ReactNode } from "react";
 /**
  * RadioButtonGroup Props
  * @param {defaultValue} default value of radio group
+ * @param {selectedValue} selected value for radio group
  * @param {children} nested radio button or group
  * @param {className} css property
  * @param {disabled} property to enable disable radio button group
@@ -24,6 +25,7 @@ import { ReactNode } from "react";
  */
 declare type RadioButtonGroupProps = {
     defaultValue?: any;
+    selectedValue?: any;
     children?: React.ReactNode[];
     className?: string;
     disabled?: boolean;
@@ -41,6 +43,7 @@ declare type RadioButtonGroupState = Readonly<typeof initialState>;
 export declare class RadioButtonGroup extends React.PureComponent<RadioButtonGroupProps> {
     readonly state: RadioButtonGroupState;
     constructor(props: RadioButtonGroupProps);
+    componentDidUpdate(prevProps: RadioButtonGroupProps): void;
     private handleChange;
     private renderChildren;
     private static renderHelperText;

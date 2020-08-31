@@ -78,11 +78,30 @@ export declare class ClassNames {
     static DATAGRID_SPINNER: string;
     static DATAGRID_OUTER_WRAPPER: string;
     static DATAGRID_INNER_WRAPPER: string;
+    static DATAGRID_COL_WIDTH_EXCEEDED_MAX: string;
+    static CLR_SR_ONLY: string;
+    static NG_TNS_C81_13: string;
+    static DRAGGABLE_GHOST: string;
+    static NG_TRIGGER: string;
+    static NG_TRIGGER_LEAVE_ANIMATION: string;
+    static BEING_DRAGGED: string;
+    static DATAGRID_FOOTER_CHECKBOX: string;
+    static DATAGRID_FORM_CONTROL: string;
+    static CLR_SELECT: string;
+    static CLR_RADIO_WRAPPER: string;
+    static STRICT_WIDTH_CLASS: string;
 }
 export declare class Styles {
     static PAGINATION_DESCRIPTION_COMPACT: {
         textAlign: "left";
         webkitBoxFlex: number;
         flex: number;
+    };
+    static DRAGGABLE_GHOST: {
+        visibility: "visible";
+        width: string;
+        height: string;
+        top: string;
+        left: string;
     };
 }

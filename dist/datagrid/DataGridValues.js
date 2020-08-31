@@ -21,14 +21,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.hideableColumns = exports.pageFilterFunction = exports.paginationDetailsWithCompactFooter = exports.paginationDetails = exports.getPageData = exports.paginationRows = exports.getRowData = exports.selectedRows = exports.expandableRows = exports.GridActions = exports.sortColumns = exports.sortFunction = exports.filterFunction = exports.customRows = exports.hideShowColFooter = exports.noFooter = exports.defaultFooter = exports.customFooter = exports.normalRows = exports.normalColumns = void 0;
 var React = __importStar(require("react"));
 var icon_1 = require("../icon");
 var button_1 = require("../forms/button");
@@ -87,6 +100,12 @@ exports.defaultFooter = {
 };
 exports.noFooter = {
     showFooter: false,
+};
+exports.hideShowColFooter = {
+    hideShowColumns: {
+        hideShowColBtn: true,
+    },
+    showFooter: true,
 };
 /**
  * Data for Custom content rendering
@@ -295,6 +314,7 @@ exports.expandableRows = [
         expandableContent: null,
     },
 ];
+exports.selectedRows = [41512, 2459, 83942];
 /**
  * Data for Pagination
  */
@@ -307,13 +327,14 @@ function getRowData() {
         [14262, "Johnson", "Jun 23, 2019", "Blue"],
         [59729, "Sibyl", "Feb 27, 2016", "Red"],
         [92422, "Roslyn", "Apr 26, 2016", "Blue"],
-        [83943, "Lottie", "Mar 2, 2019", "Yellow"],
-        [83943, "Lottie", "Mar 2, 2019", "Yellow"],
+        [83941, "Lottie", "Mar 2, 2019", "Yellow"],
+        [83942, "Lottie", "Mar 2, 2019", "Yellow"],
         [83943, "Lottie", "Mar 2, 2019", "Yellow"],
     ];
     var rowValues = [];
     data.forEach(function (element) {
         var row = {
+            isSelected: exports.selectedRows.includes(element[0]),
             rowData: [
                 {
                     columnName: "User ID",
@@ -394,6 +415,7 @@ exports.pageFilterFunction = function (rows, columnValue, columnName) {
         }
         // Purposefully added dealy here to see loading spinner
         setTimeout(function () {
+            console.log("rows", rows);
             resolve(result);
         }, 2000);
     });

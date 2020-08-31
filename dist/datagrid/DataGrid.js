@@ -32,14 +32,34 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.DataGrid = exports.DEFAULT_COLUMN_WIDTH = exports.GridRowType = exports.SortOrder = exports.GridSelectionType = void 0;
 var React = __importStar(require("react"));
 var ClassNames_1 = require("./ClassNames");
 var utils_1 = require("../utils");
@@ -49,6 +69,7 @@ var button_1 = require("../forms/button");
 var icon_1 = require("../icon");
 var Spinner_1 = require("../spinner/Spinner");
 var HideShowColumns_1 = require("./HideShowColumns");
+var DataGridColumnResize_1 = require("./DataGridColumnResize");
 /**
  * Enum for GridSelectionType :
  * @param {MULTI} for enabling multi row select
@@ -81,8 +102,8 @@ var GridRowType;
     GridRowType["EXPANDABLE"] = "expandable";
     GridRowType["COMPACT"] = "compact";
 })(GridRowType = exports.GridRowType || (exports.GridRowType = {}));
-// Default width to datagrid column
-var DEFAULT_COLUMN_WIDTH = "100px";
+// Default width of datagrid column in px
+exports.DEFAULT_COLUMN_WIDTH = 100;
 /**
  * DataGrid Componnet :
  * Displays data in grid format
@@ -92,6 +113,7 @@ var DataGrid = /** @class */ (function (_super) {
     function DataGrid() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.pageIndexRef = React.createRef();
+        _this.datagridTableRef = React.createRef();
         // Initial state of datagrid
         _this.state = {
             isLoading: true,
@@ -148,20 +170,36 @@ var DataGrid = /** @class */ (function (_super) {
                 pagination.compactFooter = compactFooter !== undefined ? compactFooter : false;
             }
             _this.setState({
-                allRows: updatedRows.slice(),
+                allRows: __spreadArrays(updatedRows),
                 selectAll: rows.length == 0 ? false : utils_1.allTrueOnKey(updatedRows, "isSelected"),
                 pagination: pagination ? pagination : undefined,
             });
         };
         // Function to update datagrid rows
         _this.updateColumns = function (cols) {
+            var footer = _this.props.footer;
             // Update visibility and sorting details of columns
             var columnsWithVisibility = _this.setColumnVisibility(cols);
             var columnsWithSort = _this.setSortingState(columnsWithVisibility);
             var updatedCols = _this.updateColumnIDs(columnsWithSort);
             _this.setState({
-                allColumns: updatedCols.slice(),
+                allColumns: __spreadArrays(updatedCols),
+            }, function () {
+                footer &&
+                    footer.hideShowColumns &&
+                    footer.hideShowColumns.updateDataGridColumns &&
+                    footer.hideShowColumns.updateDataGridColumns(updatedCols);
             });
+        };
+        // Function to update datagrid column width
+        _this.updateColumnWidth = function (col) {
+            var allColumns = _this.state.allColumns;
+            if (col && col.columnID !== undefined) {
+                allColumns[col.columnID].width = col.width;
+                _this.setState({
+                    allColumns: __spreadArrays(allColumns),
+                });
+            }
         };
         // Function to get all rows
         _this.getAllRows = function () {
@@ -239,24 +277,26 @@ var DataGrid = /** @class */ (function (_super) {
             _this.setState({
                 selectAll: !value,
                 allRows: rows,
-            }, function () { return onSelectAll && onSelectAll(); });
+            }, function () { return onSelectAll && onSelectAll(!value); });
         };
         // Function to handle select/deselect of single row
         _this.handleSelectSingle = function (evt, rowID) {
             var rows = _this.state.allRows;
             var _a = _this.props, onRowSelect = _a.onRowSelect, selectionType = _a.selectionType;
+            var selectedRow;
             rows.forEach(function (row) {
                 if (row["rowID"] === rowID) {
                     row["isSelected"] = !row["isSelected"];
+                    selectedRow = row;
                 }
                 else if (selectionType === GridSelectionType.SINGLE) {
                     row["isSelected"] = false;
                 }
             });
             _this.setState({
-                allRows: rows.slice(),
+                allRows: __spreadArrays(rows),
                 selectAll: utils_1.allTrueOnKey(rows, "isSelected"),
-            }, function () { return onRowSelect && onRowSelect(); });
+            }, function () { return onRowSelect && onRowSelect(selectedRow); });
         };
         // Function to handle sorting
         _this.handleSort = function (evt, columnName, columnID, sortFunction, defaultSortOrder) {
@@ -278,8 +318,8 @@ var DataGrid = /** @class */ (function (_super) {
                     allColumns[columnID].sort.defaultSortOrder = nextSortOrder_1;
                     allColumns[columnID].sort.isSorted = true;
                     _this.setState({
-                        allRows: rows.slice(),
-                        allColumns: allColumns.slice(),
+                        allRows: __spreadArrays(rows),
+                        allColumns: __spreadArrays(allColumns),
                     });
                     _this.hideLoader();
                 });
@@ -300,7 +340,7 @@ var DataGrid = /** @class */ (function (_super) {
         if (rows && rows !== prevProps.rows) {
             this.updateRows(rows, pagination && pagination.totalItems);
         }
-        if (columns !== prevProps.columns) {
+        if (columns && columns !== prevProps.columns) {
             this.updateColumns(columns);
         }
     };
@@ -318,13 +358,19 @@ var DataGrid = /** @class */ (function (_super) {
         var _a = this.state, allRows = _a.allRows, allColumns = _a.allColumns;
         var rows = this.updateRowIDs(allRows);
         var columns = this.updateColumnIDs(this.setColumnVisibility(allColumns));
+        columns.forEach(function (col) {
+            if (col.width === undefined) {
+                col["width"] = exports.DEFAULT_COLUMN_WIDTH;
+            }
+        });
         rows.forEach(function (row) {
-            row["isSelected"] = false;
+            row["isSelected"] = row.isSelected !== undefined ? row.isSelected : false;
             row["isExpanded"] = false;
         });
         this.setState({
-            allRows: rows.slice(),
-            allColumns: columns.slice(),
+            allRows: __spreadArrays(rows),
+            allColumns: __spreadArrays(columns),
+            selectAll: utils_1.allTrueOnKey(rows, "isSelected"),
         });
     };
     // Initialize state of grid with pagination
@@ -378,7 +424,7 @@ var DataGrid = /** @class */ (function (_super) {
                 getPageData(pageIndex, pageSize).then(function (data) {
                     var rows = _this.updateRowIDs(data);
                     _this.setState({
-                        allRows: rows.slice(),
+                        allRows: __spreadArrays(rows),
                         pagination: paginationState_1,
                         selectAll: utils_1.allTrueOnKey(rows, "isSelected"),
                     });
@@ -396,7 +442,7 @@ var DataGrid = /** @class */ (function (_super) {
                 row["isExpanded"] = !row["isExpanded"];
         });
         this.setState({
-            allRows: allRows.slice(),
+            allRows: __spreadArrays(allRows),
         });
     };
     DataGrid.prototype.updateRowIDs = function (rows) {
@@ -420,7 +466,7 @@ var DataGrid = /** @class */ (function (_super) {
         });
         return columns;
     };
-    // Get width of column
+    // Get object of column
     DataGrid.prototype.getColObject = function (columnName) {
         var allColumns = this.state.allColumns;
         var column = allColumns.find(function (col) { return col.columnName === columnName; });
@@ -429,7 +475,7 @@ var DataGrid = /** @class */ (function (_super) {
     // Get width of column
     DataGrid.prototype.getColWidth = function (columnName) {
         var column = this.getColObject(columnName);
-        return column && column.width ? column.width : DEFAULT_COLUMN_WIDTH;
+        return column && column.width;
     };
     // Check if column is visible
     DataGrid.prototype.isColVisible = function (columnName) {
@@ -466,13 +512,19 @@ var DataGrid = /** @class */ (function (_super) {
         var _this = this;
         var selectionType = this.props.selectionType;
         var selectAll = this.state.selectAll;
-        return (React.createElement("div", { role: "columnheader", className: utils_1.classNames([
-                ClassNames_1.ClassNames.DATAGRID_COLUMN,
-                ClassNames_1.ClassNames.DATAGRID_SELECT,
-                ClassNames_1.ClassNames.DATAGRID_FIXED_COLUMN,
-            ]) },
-            React.createElement("span", { className: ClassNames_1.ClassNames.DATAGRID_COLUMN_TITLE }, selectionType === GridSelectionType.MULTI && (React.createElement(checkbox_1.CheckBox, { id: "select_all", onChange: function (evt) { return _this.handleSelectAll(evt); }, ariaLabel: "Select All", checked: selectAll !== undefined ? selectAll : undefined }))),
-            React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_COLUMN_SEPARATOR })));
+        return (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_STICKY },
+            React.createElement("div", { role: "columnheader", className: utils_1.classNames([
+                    ClassNames_1.ClassNames.DATAGRID_COLUMN,
+                    ClassNames_1.ClassNames.DATAGRID_SELECT,
+                    ClassNames_1.ClassNames.DATAGRID_FIXED_COLUMN,
+                    ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED,
+                ]) },
+                React.createElement("span", { className: ClassNames_1.ClassNames.DATAGRID_COLUMN_TITLE }, selectionType === GridSelectionType.MULTI && (React.createElement("div", { className: utils_1.classNames([
+                        ClassNames_1.ClassNames.CLR_CHECKBOX_WRAPPER,
+                        ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED,
+                    ]) },
+                    React.createElement(checkbox_1.CheckBox, { id: "select_all", onChange: function (evt) { return _this.handleSelectAll(evt); }, ariaLabel: "Select All", className: ClassNames_1.ClassNames.CLR_SELECT, checked: selectAll !== undefined ? selectAll : undefined })))),
+                React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_COLUMN_SEPARATOR }))));
     };
     // Function to render empty column header
     DataGrid.prototype.buildEmptyColumn = function () {
@@ -488,10 +540,18 @@ var DataGrid = /** @class */ (function (_super) {
     DataGrid.prototype.buildSelectCell = function (rowID, isSelected) {
         var _this = this;
         var selectionType = this.props.selectionType;
-        if (selectionType === GridSelectionType.MULTI) {
-            return (React.createElement(checkbox_1.CheckBox, { id: rowID.toString(), ariaLabel: "Select", onChange: function (evt) { return _this.handleSelectSingle(evt, rowID); }, checked: isSelected !== undefined ? isSelected : undefined }));
-        }
-        return (React.createElement(radio_1.RadioButton, { value: rowID, id: rowID.toString(), onChange: function (evt) { return _this.handleSelectSingle(evt, rowID); }, checked: isSelected !== undefined ? isSelected : undefined }));
+        return (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_STICKY },
+            React.createElement("div", { role: "gridcell", className: utils_1.classNames([
+                    ClassNames_1.ClassNames.DATAGRID_SELECT,
+                    ClassNames_1.ClassNames.DATAGRID_FIXED_COLUMN,
+                    ClassNames_1.ClassNames.DATAGRID_CELL,
+                    ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED,
+                ]) }, selectionType === GridSelectionType.MULTI ? (React.createElement("div", { className: utils_1.classNames([
+                    ClassNames_1.ClassNames.CLR_CHECKBOX_WRAPPER,
+                    ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED,
+                ]) },
+                React.createElement(checkbox_1.CheckBox, { id: rowID.toString(), ariaLabel: "Select", className: ClassNames_1.ClassNames.CLR_SELECT, onChange: function (evt) { return _this.handleSelectSingle(evt, rowID); }, checked: isSelected !== undefined ? isSelected : undefined }))) : (React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.CLR_RADIO_WRAPPER, ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED]) },
+                React.createElement(radio_1.RadioButton, { value: rowID, id: rowID.toString(), className: ClassNames_1.ClassNames.CLR_SELECT, onChange: function (evt) { return _this.handleSelectSingle(evt, rowID); }, checked: isSelected !== undefined ? isSelected : undefined }))))));
     };
     // function to build datagrid body
     DataGrid.prototype.buildDataGridBody = function () {
@@ -499,7 +559,7 @@ var DataGrid = /** @class */ (function (_super) {
         var allRows = this.state.allRows;
         return (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID },
             React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_TABLE_WRAPPER },
-                React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_TABLE, role: "grid" },
+                React.createElement("div", { ref: this.datagridTableRef, className: ClassNames_1.ClassNames.DATAGRID_TABLE, role: "grid" },
                     this.buildDataGridHeader(),
                     allRows.map(function (row, index) {
                         return _this.buildDataGridRow(row, index);
@@ -534,9 +594,8 @@ var DataGrid = /** @class */ (function (_super) {
         return (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_HEADER, role: "rowgroup" },
             React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW, role: "row" },
                 React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_MASTER },
-                    React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_STICKY }),
+                    selectionType && this.buildSelectColumn(),
                     React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_SCROLLABLE },
-                        selectionType && this.buildSelectColumn(),
                         rowType && rowType === GridRowType.EXPANDABLE && this.buildEmptyColumn(),
                         allColumns &&
                             allColumns.map(function (column, index) {
@@ -547,7 +606,8 @@ var DataGrid = /** @class */ (function (_super) {
     DataGrid.prototype.buildDataGridColumn = function (column, index) {
         var _this = this;
         var columnName = column.columnName, columnID = column.columnID, className = column.className, style = column.style, sort = column.sort, filter = column.filter, width = column.width;
-        return (React.createElement("div", { role: "columnheader", className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_COLUMN, className]), "aria-sort": "none", style: __assign({}, style, { width: width ? width : DEFAULT_COLUMN_WIDTH }), key: "col-" + index },
+        var columnHeight = this.datagridTableRef && this.datagridTableRef.current && this.datagridTableRef.current.clientHeight;
+        return (React.createElement("div", { role: "columnheader", className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_COLUMN, ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED, className]), "aria-sort": "none", style: __assign(__assign({}, style), { width: width + "px" }), key: "col-" + index },
             React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_COLUMN_FLEX },
                 sort != undefined ? (React.createElement(button_1.Button, { key: "sort", defaultBtn: false, className: utils_1.classNames([
                         ClassNames_1.ClassNames.DATAGRID_COLUMN_TITLE,
@@ -561,9 +621,7 @@ var DataGrid = /** @class */ (function (_super) {
                             ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED,
                         ]) })))) : (React.createElement("span", { className: ClassNames_1.ClassNames.DATAGRID_COLUMN_TITLE }, columnName)),
                 filter && filter,
-                React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_COLUMN_SEPARATOR },
-                    React.createElement("div", { "aria-hidden": "true", className: ClassNames_1.ClassNames.DATAGRID_COLUMN_HANDLE }),
-                    React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_COLUMN_RESIZE })))));
+                React.createElement(DataGridColumnResize_1.DataGridColumnResize, { height: columnHeight, column: column, updateColumn: this.updateColumnWidth }))));
     };
     // function to build datagrid rows
     DataGrid.prototype.buildDataGridRow = function (row, index) {
@@ -572,7 +630,7 @@ var DataGrid = /** @class */ (function (_super) {
         var rowID = row.rowID, rowData = row.rowData, className = row.className, style = row.style, isSelected = row.isSelected, isExpanded = row.isExpanded, expandableContent = row.expandableContent;
         var rowStyle = style;
         if (index === 0) {
-            rowStyle = __assign({}, style, { borderTop: "none" });
+            rowStyle = __assign(__assign({}, style), { borderTop: "none" });
         }
         return (React.createElement("div", { role: "rowgroup", className: utils_1.classNames([
                 ClassNames_1.ClassNames.DATAGRID_ROW,
@@ -580,15 +638,10 @@ var DataGrid = /** @class */ (function (_super) {
                 isSelected && ClassNames_1.ClassNames.DATAGRID_SELECTED,
                 className,
             ]), "aria-owns": "clr-dg-row" + index, style: rowStyle, key: "row-" + index },
-            React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_ROW_MASTER, ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED]), role: "row", id: "clr-dg-row1" },
-                React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_STICKY }),
+            React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_ROW_MASTER, ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED]), role: "row" },
+                selectionType && this.buildSelectCell(rowID, isSelected),
                 React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_ROW_SCROLLABLE },
                     React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_SCROLLING_CELLS },
-                        selectionType &&
-                            this.buildDataGridCell(this.buildSelectCell(rowID, isSelected), index, "select", utils_1.classNames([
-                                ClassNames_1.ClassNames.DATAGRID_SELECT,
-                                ClassNames_1.ClassNames.DATAGRID_FIXED_COLUMN,
-                            ])),
                         rowType &&
                             rowType === GridRowType.EXPANDABLE &&
                             this.buildExpandableCell(rowID, isExpanded, expandableContent),
@@ -602,14 +655,16 @@ var DataGrid = /** @class */ (function (_super) {
     };
     // function to build datagrid cell
     DataGrid.prototype.buildDataGridCell = function (cellData, index, columnName, className, style) {
+        var columnObj = this.getColObject(columnName);
         var width = this.getColWidth(columnName);
         var isColVisible = this.isColVisible(columnName);
         return (React.createElement("div", { role: "gridcell", key: "cell-" + index, className: utils_1.classNames([
                 ClassNames_1.ClassNames.DATAGRID_CELL,
                 ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED,
                 isColVisible !== undefined && !isColVisible && ClassNames_1.ClassNames.DATAGRID_HIDDEN_COLUMN,
+                columnObj && columnObj.className,
                 className,
-            ]), style: __assign({}, style, { width: width }) }, cellData));
+            ]), style: __assign(__assign({}, style), { width: width + "px" }) }, cellData));
     };
     // Function to build pageSizes select
     DataGrid.prototype.buildPageSizesSelect = function () {
@@ -665,6 +720,14 @@ var DataGrid = /** @class */ (function (_super) {
         var allColumns = this.state.allColumns;
         return React.createElement(HideShowColumns_1.HideShowColumns, { columns: allColumns, updateColumns: this.updateColumns });
     };
+    // function to build selected row count
+    DataGrid.prototype.buildSelectedRowCount = function () {
+        var _a = this.props, selectedRowCount = _a.selectedRowCount, selectionType = _a.selectionType;
+        var showSelectedRowsCount = selectedRowCount && selectedRowCount > 0 && selectionType === GridSelectionType.MULTI ? true : false;
+        return showSelectedRowsCount ? (React.createElement("div", { className: utils_1.classNames([ClassNames_1.ClassNames.DATAGRID_FORM_CONTROL, ClassNames_1.ClassNames.DATAGRID_NG_STAR_INSERTED]) },
+            React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_FOOTER_CHECKBOX },
+                React.createElement(checkbox_1.CheckBox, { checked: true, disabled: true, label: selectedRowCount.toString() })))) : (React.createElement(React.Fragment, null));
+    };
     DataGrid.prototype.buildFooterContent = function () {
         var footer = this.props.footer;
         var _a = this.state, allRows = _a.allRows, itemText = _a.itemText;
@@ -680,7 +743,6 @@ var DataGrid = /** @class */ (function (_super) {
     };
     // function to build datagrid footer
     DataGrid.prototype.buildDataGridFooter = function () {
-        // Need to take this from state in future
         var footer = this.props.footer;
         var pagination = this.state.pagination;
         var renderPaginationFooter = false;
@@ -691,7 +753,11 @@ var DataGrid = /** @class */ (function (_super) {
             }
         }
         return (React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_FOOTER + " " + (footer && footer.className && footer.className), style: footer && footer.style && footer.style },
-            footer && footer.hideShowColBtn && this.buildHideShowColumnsBtn(),
+            footer &&
+                footer.hideShowColumns &&
+                footer.hideShowColumns.hideShowColBtn &&
+                this.buildHideShowColumnsBtn(),
+            this.buildSelectedRowCount(),
             React.createElement("div", { className: ClassNames_1.ClassNames.DATAGRID_FOOTER_DESC }, renderPaginationFooter ? this.buildDataGridPagination() : this.buildFooterContent())));
     };
     DataGrid.prototype.buildDataGridSpinner = function () {

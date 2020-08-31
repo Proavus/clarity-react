@@ -39,6 +39,9 @@ export declare class ClassNames {
     static ACTIVE: string;
     static COMPLETE: string;
     static ERROR: string;
+    static NG_TNS: string;
+    static CLOSE: string;
+    static NG_STAR_INSERTED: string;
 }
 export declare class Styles {
     static MODAL_GHOST_2: {
@@ -49,8 +52,14 @@ export declare class Styles {
     static MODAL_GHOST_1: {
         left: string;
     };
-    static MODAL_TITELE: {
+    static WIZARD_STEPNAV_WRAPPER_STYLE: {
         paddingTop: string;
+    };
+    static WIZARD_TITLE_STYLE: {
+        marginTop: string;
+    };
+    static MODAL_TITLE_STYLE: {
+        marginTop: string;
     };
     static WIZARD_OUTER_WRAPPER: {
         height: string;

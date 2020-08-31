@@ -12,7 +12,8 @@ import * as React from "react";
  * @param {className} css stylke
  * @param {children} childern UI
  * @param {style} css style
- * @param {defaultValue} default value to be passed
+ * @param {defaultValue} default value for button group
+ * @param {selectedValue} selected value for button group
  * @param {label} name for group
  * @param {disabled} enable disable property
  * @param {isRadio} radio group property
@@ -24,6 +25,7 @@ declare type ButtonGroupProps = {
     children?: React.ReactNode[];
     style?: any;
     defaultValue?: any;
+    selectedValue?: any;
     label?: string;
     disabled?: boolean;
     isRadio?: boolean;

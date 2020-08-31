@@ -21,14 +21,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.RadioButtonGroup = void 0;
 var React = __importStar(require("react"));
 var RadioButton_1 = require("./RadioButton");
 var utils = __importStar(require("../../utils"));
@@ -44,11 +57,16 @@ var RadioButtonGroup = /** @class */ (function (_super) {
             if (onChange)
                 onChange(evt);
         };
-        var defaultValue = props.defaultValue;
-        if (defaultValue)
-            _this.state = { value: defaultValue };
+        var defaultValue = props.defaultValue, selectedValue = props.selectedValue;
+        _this.state = { value: selectedValue ? selectedValue : defaultValue };
         return _this;
     }
+    RadioButtonGroup.prototype.componentDidUpdate = function (prevProps) {
+        var _a = this.props, selectedValue = _a.selectedValue, defaultValue = _a.defaultValue;
+        if (selectedValue !== prevProps.selectedValue || defaultValue !== prevProps.defaultValue) {
+            this.setState({ value: selectedValue ? selectedValue : defaultValue });
+        }
+    };
     RadioButtonGroup.prototype.renderChildren = function () {
         var _this = this;
         var value = this.state.value;
@@ -60,15 +78,15 @@ var RadioButtonGroup = /** @class */ (function (_super) {
             var childEl = child;
             if (childEl.type === RadioButton_1.RadioButton) {
                 return React.cloneElement(childEl, {
+                    // @ts-ignore // childEl is of type RadioButton
                     checked: value === childEl.props.value,
                     className: className,
-                    disabled: disabled,
+                    disabled: disabled ? disabled : childEl.props.disabled,
                     id: name + "-" + index,
                     name: name,
                     onChange: _this.handleChange,
                 });
             }
-            console.log(child);
             return child;
         });
     };

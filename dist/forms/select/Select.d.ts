@@ -11,6 +11,8 @@ import * as React from "react";
 declare type SelectOption = {
     value?: string;
     selected?: boolean;
+    disabled?: boolean;
+    hidden?: boolean;
 };
 export declare const SelectOption: React.FunctionComponent<SelectOption>;
 declare type SelectProps = {

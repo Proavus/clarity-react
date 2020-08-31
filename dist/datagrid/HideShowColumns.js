@@ -21,14 +21,27 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.HideShowColumns = void 0;
 var React = __importStar(require("react"));
 var utils_1 = require("../utils");
 var ClassNames_1 = require("./ClassNames");
@@ -43,7 +56,6 @@ var HideShowColumns = /** @class */ (function (_super) {
         // Initial state for HideShowColumns
         _this.state = {
             isOpen: false,
-            columns: _this.props.columns,
             transformVal: "translateX(0px) translateY(0px)",
             SelectAll: utils_1.allTrueOnKey(_this.props.columns, "isVisible"),
         };
@@ -81,22 +93,23 @@ var HideShowColumns = /** @class */ (function (_super) {
             _this.updateDatagridColumns(columnName);
         };
         _this.updateDatagridColumns = function (columnName) {
-            var columns = _this.state.columns;
+            var columns = _this.props.columns;
             var updateColumns = _this.props.updateColumns;
             columns.forEach(function (column) {
                 if (columnName === column.columnName) {
                     column.isVisible = !column.isVisible;
+                    // To make sure at least 1 column is visible
+                    if (utils_1.allFalseOnKey(columns, "isVisible")) {
+                        column.isVisible = !column.isVisible;
+                    }
                 }
                 else if (columnName === "All") {
                     column.isVisible = true;
                 }
             });
-            if (!utils_1.allFalseOnKey(columns, "isVisible")) {
-                _this.setState({
-                    columns: columns.slice(),
-                    SelectAll: utils_1.allTrueOnKey(columns, "isVisible"),
-                }, function () { return updateColumns && updateColumns(columns); });
-            }
+            _this.setState({
+                SelectAll: utils_1.allTrueOnKey(columns, "isVisible"),
+            }, function () { return updateColumns && updateColumns(columns); });
         };
         return _this;
     }
@@ -130,8 +143,8 @@ var HideShowColumns = /** @class */ (function (_super) {
     };
     HideShowColumns.prototype.render = function () {
         var _this = this;
-        var _a = this.state, isOpen = _a.isOpen, columns = _a.columns, transformVal = _a.transformVal, SelectAll = _a.SelectAll;
-        var className = this.props.className;
+        var _a = this.state, isOpen = _a.isOpen, transformVal = _a.transformVal, SelectAll = _a.SelectAll;
+        var _b = this.props, className = _b.className, columns = _b.columns;
         return (React.createElement("div", null,
             React.createElement("div", { ref: this.refParent, className: utils_1.classNames([ClassNames_1.ClassNames.COLUMN_SWITCH_WRAPPER]) },
                 React.createElement(button_1.Button, { className: ClassNames_1.ClassNames.COLUMN_TOGGLE, onClick: this.handleButtonClick, icon: {

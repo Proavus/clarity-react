@@ -44,6 +44,12 @@ export declare const defaultFooter: {
 export declare const noFooter: {
     showFooter: boolean;
 };
+export declare const hideShowColFooter: {
+    hideShowColumns: {
+        hideShowColBtn: boolean;
+    };
+    showFooter: boolean;
+};
 /**
  * Data for Custom content rendering
  */
@@ -116,6 +122,7 @@ export declare const expandableRows: ({
     })[];
     expandableContent: null;
 })[];
+export declare let selectedRows: number[];
 /**
  * Data for Pagination
  */

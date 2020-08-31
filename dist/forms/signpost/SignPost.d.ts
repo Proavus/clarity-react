@@ -59,7 +59,7 @@ export declare class SignPost extends React.PureComponent<SignPostProps> {
     afterToggle: () => void;
     subscribeDocumentClick: () => void;
     unsubscribeDocumentClick: () => void;
-    handleDocumentClick: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+    handleDocumentClick: (evt: React.MouseEvent<HTMLElement>) => void;
     componentDidUpdate(): void;
     render(): JSX.Element;
 }
