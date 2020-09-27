@@ -29,6 +29,7 @@ declare type PasswordProps = {
     required?: boolean;
     error?: boolean;
     unmask?: boolean;
+    pattern?: string;
     dataqa?: string;
 };
 declare type PasswordState = {

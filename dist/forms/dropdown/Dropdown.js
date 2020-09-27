@@ -135,7 +135,6 @@ var Dropdown = /** @class */ (function (_super) {
             var target = evt.target;
             var el = _this.ddRef.current;
             if (!el || typeof el === "string") {
-                console.warn("wrong element type");
                 return;
             }
             if (!el.contains(target)) {

@@ -91,7 +91,7 @@ var DataList = /** @class */ (function (_super) {
     };
     DataList.prototype.renderDataList = function () {
         var _this = this;
-        var _a = this.props, placeHolder = _a.placeHolder, name = _a.name, isError = _a.isError, errorText = _a.errorText, helperText = _a.helperText, required = _a.required, className = _a.className, style = _a.style, children = _a.children, onChange = _a.onChange, autoComplete = _a.autoComplete;
+        var _a = this.props, placeHolder = _a.placeHolder, name = _a.name, isError = _a.isError, errorText = _a.errorText, helperText = _a.helperText, required = _a.required, className = _a.className, style = _a.style, children = _a.children, onChange = _a.onChange, autoComplete = _a.autoComplete, defaultValue = _a.defaultValue;
         var hasFocus = this.state.hasFocus;
         return (React.createElement("div", { className: ClassNames_1.ClassNames.CLR_INPUT_WRAPPER },
             React.createElement(react_uid_1.UID, null, function (listId) { return (React.createElement("div", { className: utils_1.classNames([
@@ -104,7 +104,7 @@ var DataList = /** @class */ (function (_super) {
                         ClassNames_1.ClassNames.NG_VALID,
                         ClassNames_1.ClassNames.NG_TOUCHED,
                         ClassNames_1.ClassNames.NG_DIRTY,
-                    ]), "aria-describedby": "clr-form-control-3-helper", type: "text", autoComplete: autoComplete ? autoComplete : DataListAutoComplete.OFF }),
+                    ]), "aria-describedby": "clr-form-control-3-helper", type: "text", autoComplete: autoComplete ? autoComplete : DataListAutoComplete.OFF, defaultValue: defaultValue ? defaultValue : "" }),
                 React.createElement("datalist", { id: listId }, children))); }),
             React.createElement(icon_1.Icon, { className: ClassNames_1.ClassNames.CLR_VALIDATE_ICON, shape: "exclamation-circle" }),
             isError

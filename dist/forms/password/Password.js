@@ -76,7 +76,7 @@ var Password = /** @class */ (function (_super) {
     };
     Password.prototype.render = function () {
         var _a = this.props, className = _a.className, //prettier
-        disabled = _a.disabled, helperText = _a.helperText, label = _a.label, value = _a.value, defaultValue = _a.defaultValue, errorHelperText = _a.errorHelperText, error = _a.error, style = _a.style, name = _a.name, required = _a.required, id = _a.id, maxPasswordLength = _a.maxPasswordLength, minPasswordLength = _a.minPasswordLength, placeholder = _a.placeholder, unmask = _a.unmask, dataqa = _a.dataqa;
+        disabled = _a.disabled, helperText = _a.helperText, label = _a.label, value = _a.value, defaultValue = _a.defaultValue, errorHelperText = _a.errorHelperText, error = _a.error, style = _a.style, name = _a.name, required = _a.required, id = _a.id, maxPasswordLength = _a.maxPasswordLength, minPasswordLength = _a.minPasswordLength, placeholder = _a.placeholder, unmask = _a.unmask, pattern = _a.pattern, dataqa = _a.dataqa;
         var _b = this.state, show = _b.show, type = _b.type;
         var classNames = ["clr-control-container", error && "clr-error", label && "clr-col-md-10 clr-col-12"];
         if (disabled)
@@ -87,7 +87,7 @@ var Password = /** @class */ (function (_super) {
                 React.createElement("div", { className: utils.classNames(classNames), style: { width: "100%" } },
                     React.createElement("div", { className: "clr-input-wrapper" },
                         React.createElement("div", { className: utils.classNames(["clr-input-group", className]), style: style },
-                            React.createElement("input", { maxLength: maxPasswordLength, minLength: minPasswordLength, name: name, defaultValue: defaultValue, value: value, placeholder: placeholder, required: required, type: type, disabled: disabled, style: { width: "95%" }, className: "clr-input ng-pristine ng-invalid ng-touched", id: id, "data-qa": dataqa, onChange: this.handleChange }),
+                            React.createElement("input", { maxLength: maxPasswordLength, minLength: minPasswordLength, name: name, defaultValue: defaultValue, value: value, placeholder: placeholder, required: required, type: type, disabled: disabled, style: { width: "95%" }, className: "clr-input ng-pristine ng-invalid ng-touched", id: id, pattern: pattern, "data-qa": dataqa, onChange: this.handleChange }),
                             unmask && (React.createElement(button_1.Button, { defaultBtn: false, className: "clr-input-group-icon-action ng-star-inserted", onClick: this.showHidePassword, icon: { shape: show ? "eye" : "eye-hide" } },
                                 React.createElement("span", { className: "is-off-screen" }, "Show"))),
                             React.createElement(icon_1.Icon, { className: "clr-validate-icon ng-star-inserted", shape: "exclamation-circle" })),

@@ -11,6 +11,7 @@ import * as React from "react";
 import { ReactNode } from "react";
 import { IconProps } from "../../icon";
 export declare type ButtonProps = {
+    id?: string;
     block?: boolean;
     className?: string;
     disabled?: boolean;

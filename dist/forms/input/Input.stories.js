@@ -48,6 +48,7 @@ react_1.storiesOf("Input", module)
     .add("input box with icon", function () { return (React.createElement(Input_1.Input, { name: "somevalue", onChange: addon_actions_1.action("changed"), placeholder: "Type to search ..." },
     React.createElement(icon_1.Icon, { shape: "search", style: { marginLeft: "-20px", width: "16px", height: "16px" } }))); })
     .add("input with number", function () { return (React.createElement(Input_1.Input, { name: "somevalue", type: "number", min: 1, max: 10, onChange: addon_actions_1.action("changed"), defaultValue: 1 })); })
+    .add("input with spell check off", function () { return React.createElement(Input_1.Input, { name: "somevalue", onChange: addon_actions_1.action("changed"), spellCheck: false }); })
     .add("input box with custom width", function () { return (React.createElement("div", null,
     React.createElement(Input_1.Input, { name: "somevalue", placeholder: "stuff goes here", onChange: addon_actions_1.action("changed"), style: { width: "40%" } }),
     React.createElement("br", null),

@@ -52,6 +52,7 @@ export declare enum DataListAutoComplete {
  * @param {style} CSS styles
  * @param {className} CSS classname
  * @param {autoComplete} if "off" disable browser autocomplete
+ * @param {defaultValue} if it will be used to set default value of input element, useful in case of edit workflows
  **/
 declare type DataListProps = {
     placeHolder?: string;
@@ -67,6 +68,7 @@ declare type DataListProps = {
     dataqa?: string;
     className?: string;
     style?: any;
+    defaultValue?: string;
 };
 /**
  * State for DataList:

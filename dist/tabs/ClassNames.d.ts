@@ -4,4 +4,5 @@ export declare class ClassNames {
     static VERTICALTAB: string;
     static TABACTIVE: string;
     static TABINACTIVE: string;
+    static TAB_PANEL: string;
 }

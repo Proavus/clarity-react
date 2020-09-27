@@ -31,6 +31,8 @@ declare type InputProps = {
     min?: number;
     max?: number;
     step?: any;
+    spellCheck?: boolean;
+    pattern?: string;
     required?: boolean;
     error?: boolean;
     dataqa?: string;

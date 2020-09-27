@@ -84,12 +84,13 @@ var Wizard = /** @class */ (function (_super) {
     }
     // and this step's position in the list
     // progressionStatus determines the status of the wizard based on the current step properties
-    Wizard.progressionStatus = function (currentStepID, steps) {
+    Wizard.prototype.progressionStatus = function (currentStepID, steps) {
+        var _a = this.props, showNext = _a.showNext, showPrevious = _a.showPrevious, showStepTitle = _a.showStepTitle;
         if (steps.length > 0 && steps[currentStepID]) {
             var currentStep = steps[currentStepID];
             return {
-                previousStepExists: currentStepID !== steps[0].props.id,
-                nextStepExists: currentStepID !== steps[steps.length - 1].props.id,
+                previousStepExists: showPrevious !== undefined ? showPrevious : currentStepID !== steps[0].props.id,
+                nextStepExists: showNext !== undefined ? showNext : currentStepID !== steps[steps.length - 1].props.id,
                 currentStepIsCompleteAndValid: (currentStep.props.valid && currentStep.props.complete) || false,
                 currentStepTitle: currentStep.props.name,
             };
@@ -135,7 +136,7 @@ var Wizard = /** @class */ (function (_super) {
         });
         var allStepsCompleteAndValid = navigable; // if navigable stayed true throughout, then the wizard is completed
         var steps = (maybeSteps ? maybeSteps : []).filter(function (el) { return el !== null; }); // compact the step list
-        var _b = Wizard.progressionStatus(currentStepID, steps), currentStepTitle = _b.currentStepTitle, currentStepIsCompleteAndValid = _b.currentStepIsCompleteAndValid, nextStepExists = _b.nextStepExists, previousStepExists = _b.previousStepExists;
+        var _b = this.progressionStatus(currentStepID, steps), currentStepTitle = _b.currentStepTitle, currentStepIsCompleteAndValid = _b.currentStepIsCompleteAndValid, nextStepExists = _b.nextStepExists, previousStepExists = _b.previousStepExists;
         var navigationSteps = steps.map(function (step, index) { return (
         // @ts-ignore // since step is of type WizardStep, name and id are ensured on WizardNavigationStep
         React.createElement(WizardNavigation_1.WizardNavigationStep, __assign({ key: step.key || index, currentStepID: currentStepID, onSelectStep: onNavigateTo }, step.props))); });

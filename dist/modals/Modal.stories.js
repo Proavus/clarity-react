@@ -49,6 +49,10 @@ var storeExtraLarge = new storybook_state_1.Store({
     isOpen: false,
     closable: true,
 });
+var storeCustom = new storybook_state_1.Store({
+    isOpen: false,
+    closable: true,
+});
 react_1.storiesOf("Modals", module).add("Modal Sizes", function () { return (React.createElement("div", { className: "clr-row" },
     React.createElement("div", { className: "clr-col-12" },
         React.createElement(storybook_state_1.State, { store: storeSmall },
@@ -82,4 +86,12 @@ react_1.storiesOf("Modals", module).add("Modal Sizes", function () { return (Rea
                 React.createElement(Modal_1.ModalFooter, null,
                     React.createElement(button_1.Button, { onClick: function () { return storeExtraLarge.set({ isOpen: false }); } }, "cancel"),
                     React.createElement(button_1.Button, { onClick: function () { return storeExtraLarge.set({ isOpen: false }); }, primary: true }, "ok"))),
-            React.createElement(button_1.Button, { onClick: function () { return storeExtraLarge.set({ isOpen: !storeExtraLarge.get("isOpen") }); } }, "x-large"))))); });
+            React.createElement(button_1.Button, { onClick: function () { return storeExtraLarge.set({ isOpen: !storeExtraLarge.get("isOpen") }); } }, "x-large")),
+        React.createElement(storybook_state_1.State, { store: storeCustom },
+            React.createElement(Modal_1.Modal, { size: Modal_1.ModalSize.CUSTOM, onClose: function () { return storeCustom.set({ isOpen: false }); }, title: "Custom modal", width: 500, height: 300, className: "custom-class" },
+                React.createElement(Modal_1.ModalBody, null,
+                    React.createElement("p", null, "I'm a Custom sized modal with 500 X 300")),
+                React.createElement(Modal_1.ModalFooter, null,
+                    React.createElement(button_1.Button, { onClick: function () { return storeCustom.set({ isOpen: false }); } }, "cancel"),
+                    React.createElement(button_1.Button, { onClick: function () { return storeCustom.set({ isOpen: false }); }, primary: true }, "ok"))),
+            React.createElement(button_1.Button, { onClick: function () { return storeCustom.set({ isOpen: !storeCustom.get("isOpen") }); } }, "Custom"))))); });

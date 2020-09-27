@@ -75,9 +75,9 @@ var Input = /** @class */ (function (_super) {
         return React.createElement("label", { className: "clr-control-label" }, label);
     };
     Input.prototype.buildInput = function (className, uid) {
-        var _a = this.props, style = _a.style, disabled = _a.disabled, value = _a.value, defaultValue = _a.defaultValue, placeholder = _a.placeholder, size = _a.size, type = _a.type, children = _a.children, name = _a.name, id = _a.id, required = _a.required, onBlur = _a.onBlur, onKeyPress = _a.onKeyPress, dataqa = _a.dataqa, min = _a.min, max = _a.max, step = _a.step, error = _a.error, errorHelperText = _a.errorHelperText, helperText = _a.helperText;
+        var _a = this.props, style = _a.style, disabled = _a.disabled, value = _a.value, defaultValue = _a.defaultValue, placeholder = _a.placeholder, size = _a.size, type = _a.type, children = _a.children, name = _a.name, id = _a.id, required = _a.required, onBlur = _a.onBlur, onKeyPress = _a.onKeyPress, dataqa = _a.dataqa, min = _a.min, max = _a.max, step = _a.step, error = _a.error, errorHelperText = _a.errorHelperText, helperText = _a.helperText, spellCheck = _a.spellCheck, pattern = _a.pattern;
         return (React.createElement(React.Fragment, null,
-            React.createElement("input", { type: type || "text", name: name, id: id || uid, value: value, defaultValue: defaultValue, size: size, disabled: disabled, className: className, placeholder: placeholder, "data-qa": dataqa, onChange: this.handleChange, onKeyDown: this.handleKeyDown, onKeyPress: onKeyPress, onBlur: onBlur, style: style, required: required, min: min, max: max, step: step }),
+            React.createElement("input", { type: type || "text", name: name, id: id || uid, value: value, defaultValue: defaultValue, size: size, disabled: disabled, className: className, placeholder: placeholder, "data-qa": dataqa, onChange: this.handleChange, onKeyDown: this.handleKeyDown, onKeyPress: onKeyPress, onBlur: onBlur, style: style, required: required, min: min, max: max, step: step, spellCheck: spellCheck, pattern: pattern }),
             children,
             React.createElement(icon_1.Icon, { className: "clr-validate-icon", shape: "exclamation-circle" }),
             error

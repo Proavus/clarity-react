@@ -16,6 +16,9 @@ import { ReactNode } from "react";
  * @param {closable} property stating if modal is closable
  * @param {onClose} function onClose
  * @param {dataqa} Quality Engineering field
+ * @param {width} if Size is custom, then width need to be provided in props
+ * @param {height} if Size is custom, then height need to be provided in props
+ * @param {className} if className is provided, the add custom class with existing classes
  */
 declare type ModalProps = {
     isOpen?: boolean;
@@ -24,6 +27,9 @@ declare type ModalProps = {
     closable?: boolean;
     onClose?: Function;
     dataqa?: string;
+    width?: number;
+    height?: number;
+    className?: string;
 };
 declare type ModalState = {
     isOpen: boolean;
@@ -31,7 +37,8 @@ declare type ModalState = {
 export declare enum ModalSize {
     SMALL = "modal-sm",
     LARGE = "modal-lg",
-    XLARGE = "modal-xl"
+    XLARGE = "modal-xl",
+    CUSTOM = "custom"
 }
 export declare const ModalBody: React.FunctionComponent;
 export declare const ModalFooter: React.FunctionComponent;

@@ -56,4 +56,9 @@ react_1.storiesOf("DataList", module)
     React.createElement(_1.DataList, { placeHolder: "No label", helperText: "Select any option or create one", label: "Select Item", style: { width: "50%" } },
         React.createElement(_1.DataListOption, { value: "Item1" }),
         React.createElement(_1.DataListOption, { value: "Item2" }),
+        React.createElement(_1.DataListOption, { value: "Item3" })))); })
+    .add("With defaultSelected Value", function () { return (React.createElement("div", null,
+    React.createElement(_1.DataList, { placeHolder: "No label", helperText: "Select any option or create one", label: "Select Item", defaultValue: "Item1" },
+        React.createElement(_1.DataListOption, { value: "Item1" }),
+        React.createElement(_1.DataListOption, { value: "Item2" }),
         React.createElement(_1.DataListOption, { value: "Item3" })))); });

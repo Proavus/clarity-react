@@ -103,7 +103,7 @@ var Styles = /** @class */ (function () {
     }
     Styles.PAGINATION_DESCRIPTION_COMPACT = {
         textAlign: "left",
-        webkitBoxFlex: 1,
+        WebkitBoxFlex: 1,
         flex: 1,
     };
     Styles.DRAGGABLE_GHOST = {

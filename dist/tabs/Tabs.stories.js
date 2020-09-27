@@ -27,56 +27,79 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
 var react_1 = require("@storybook/react");
+var storybook_state_1 = require("@sambego/storybook-state");
 var _1 = require(".");
 var tabsData = [
     {
         name: "Dashboard",
-        isDisabled: false,
-        component: React.createElement("div", null, "Content for Dashboard tab."),
+        id: "dashboard",
+        isSelected: true,
+        component: React.createElement("p", null, "Content for Dashboard tab."),
     },
     {
         name: "Management",
-        isDisabled: false,
-        component: React.createElement("div", null, "Content for Management tab."),
+        id: "mgmt",
+        component: React.createElement("p", null, "Content for Management tab."),
     },
     {
         name: "Cloud",
-        isDisabled: false,
-        component: React.createElement("div", null, "Content for Cloud tab."),
+        id: "cloud",
+        component: React.createElement("p", null, "Content for Cloud tab."),
     },
     {
         name: "Infrastructure",
-        isDisabled: false,
-        component: React.createElement("div", null, "Content for Infrastructure tab."),
+        id: "infra",
+        isDisabled: true,
+        component: React.createElement("p", null, "Content for Infrastructure tab."),
     },
 ];
 var staticTabsData = [
     {
         name: "Dashboard",
-        isDisabled: false,
-        component: React.createElement("div", null, "Content for Dashboard tab."),
+        id: "dashboard",
+        isSelected: true,
+        component: React.createElement("p", null, "Content for Dashboard tab."),
     },
     {
         name: "Management",
+        id: "mgmt",
         isDisabled: false,
-        component: React.createElement("div", null, "Content for Management tab."),
+        component: React.createElement("p", null, "Content for Management tab."),
+        tabType: _1.TabType.STATIC,
     },
     {
         name: "Cloud",
-        isDisabled: true,
-        component: React.createElement("div", null, "Content for Cloud tab."),
+        id: "cloud",
+        component: React.createElement("p", null, "Content for Cloud tab."),
     },
     {
         name: "Infrastructure",
+        id: "infra",
         isDisabled: true,
-        component: React.createElement("div", null, "Content for Infrastructure tab."),
+        component: React.createElement("p", null, "Content for Infrastructure tab."),
     },
 ];
-react_1.storiesOf("Tab", module)
-    .add("Tab Vertical", function () { return (React.createElement(_1.Tab, { tabs: tabsData, tabOrientation: _1.TabOrientation.VERTICAL, tabType: _1.TabType.SIMPLE })); })
-    .add("Tab Horizontal", function () { return (React.createElement(_1.Tab, { tabs: tabsData, tabOrientation: _1.TabOrientation.HORIZONTAL, tabType: _1.TabType.SIMPLE })); })
-    .add("Tab Static", function () { return (React.createElement(_1.Tab, { tabs: staticTabsData, tabOrientation: _1.TabOrientation.HORIZONTAL, tabType: _1.TabType.STATIC })); })
-    .add("Tab Overflow", function () { return (React.createElement(_1.Tab, { tabs: tabsData, tabOrientation: _1.TabOrientation.HORIZONTAL, tabType: _1.TabType.SIMPLE, overflowTabsFrom: "Cloud" })); });
+var store = new storybook_state_1.Store({
+    simpleTabs: tabsData,
+    staticTabs: staticTabsData,
+    onTabClick: function (evt, clickedTab, updatedTabs) {
+        store.set({
+            simpleTabs: __spreadArrays(updatedTabs),
+        });
+    },
+});
+react_1.storiesOf("Tabs", module)
+    .add("Tab Vertical", function () { return (React.createElement(storybook_state_1.State, { store: store }, function (state) { return (React.createElement(_1.Tabs, { id: "verticalTabs", tabs: state.simpleTabs, tabOrientation: _1.TabOrientation.VERTICAL, onTabClick: state.onTabClick })); })); })
+    .add("Tab Horizontal", function () { return (React.createElement(storybook_state_1.State, { store: store }, function (state) { return (React.createElement(_1.Tabs, { id: "horizontalTabs", tabs: state.simpleTabs, tabOrientation: _1.TabOrientation.HORIZONTAL, onTabClick: state.onTabClick })); })); })
+    .add("Tab Static", function () { return (React.createElement(storybook_state_1.State, { store: store }, function (state) { return (React.createElement(_1.Tabs, { id: "staticTabs", tabs: state.staticTabs, tabOrientation: _1.TabOrientation.HORIZONTAL, onTabClick: state.onTabClick })); })); })
+    .add("Tab Overflow", function () { return (React.createElement(storybook_state_1.State, { store: store }, function (state) { return (React.createElement(_1.Tabs, { id: "overflowTabs", tabs: state.simpleTabs, tabOrientation: _1.TabOrientation.HORIZONTAL, onTabClick: state.onTabClick, overflowTabsFrom: 2 })); })); });

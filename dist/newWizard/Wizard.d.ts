@@ -30,13 +30,14 @@ import { WizardFooterProps } from "./WizardFooter";
  * @param {closable} if true user can close the wizard
  * @param {onClose} callback function to call on close of wizard
  * @param {previousText} custom text for previous button
- * @param {showPreviousButton} if true show previous button on wizard else hide
+ * @param {showNext} if true show next button on wizard else hide
  * @param {onPrevious} callback function to call on click of previous button
  * @param {previousClassName} external CSS for previous button
  * @param {nextButtonText} custom text for next button
  * @param {onNext} callback function to call on click of next button
  * @param {nextClassName} external CSS for next button
  * @param {completeText} custom text for finish button
+ * @param {showComplete} if true show finish button on wizard else hide
  * @param {onComplete} callback function to call on click of finish button
  * @param {completeClassName} external CSS for finish button
  * @param {cancelText} custom text for cancel button
@@ -88,18 +89,20 @@ export declare type WizardProps = {
     dataqa?: string;
     showNavigation?: boolean;
     closable?: boolean;
-    completeText?: string;
     isInline?: boolean;
     showPrevious?: boolean;
     previousClassName?: string;
+    previousText?: string;
     nextText?: string;
+    showNext?: boolean;
     nextClassName?: string;
     onClose?: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     onComplete?: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     onNext?: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     onPrevious?: (evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
     onNavigateTo?: (stepID: number, evt: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-    previousText?: string;
+    completeText?: string;
+    showComplete?: boolean;
     completeClassName?: string;
     cancelText?: string;
     showCancel?: boolean;
@@ -144,7 +147,7 @@ export default class Wizard extends React.PureComponent<WizardProps, WizardState
         onNext: () => void;
         onClose: () => void;
     };
-    private static progressionStatus;
+    private progressionStatus;
     scrollToTop(): void;
     render(): JSX.Element;
     private footerProps;

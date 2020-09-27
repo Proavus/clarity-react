@@ -52,6 +52,7 @@ var ModalSize;
     ModalSize["SMALL"] = "modal-sm";
     ModalSize["LARGE"] = "modal-lg";
     ModalSize["XLARGE"] = "modal-xl";
+    ModalSize["CUSTOM"] = "custom";
 })(ModalSize = exports.ModalSize || (exports.ModalSize = {}));
 exports.ModalBody = function (_a) {
     var children = _a.children;
@@ -101,13 +102,14 @@ var Modal = /** @class */ (function (_super) {
         this.cleanup();
     };
     Modal.prototype.buildModal = function () {
-        var _a = this.props, size = _a.size, closable = _a.closable, title = _a.title, children = _a.children, dataqa = _a.dataqa;
+        var _a = this.props, size = _a.size, closable = _a.closable, title = _a.title, children = _a.children, dataqa = _a.dataqa, width = _a.width, height = _a.height, className = _a.className;
         return (React.createElement(React.Fragment, null,
             React.createElement("div", { className: ClassNames_1.ClassNames.MODAL, "data-qa": dataqa },
                 React.createElement("div", { className: utils_1.classNames([
                         ClassNames_1.ClassNames.MODAL_DIALOG,
                         size && size,
-                    ]), role: "dialog", "aria-hidden": "true" },
+                        className && className,
+                    ]), style: size === ModalSize.CUSTOM ? { width: width + "px", height: height + "px" } : {}, role: "dialog", "aria-hidden": "true" },
                     React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_CONTENT },
                         React.createElement("div", { className: ClassNames_1.ClassNames.MODAL_HEADER },
                             closable && (React.createElement("button", { "aria-label": "Close", className: "close", type: "button", onClick: this.close.bind(this) },

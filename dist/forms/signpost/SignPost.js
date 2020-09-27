@@ -147,7 +147,7 @@ var SignPost = /** @class */ (function (_super) {
                     "signpost-content",
                     direction,
                 ]), style: __assign(__assign({}, style), { position: "absolute", top: "0px", bottom: "auto", left: "0px", right: "auto", transform: transformVal }) },
-                React.createElement("div", { className: "signpost-flex-wrap" },
+                React.createElement("div", { className: "signpost-wrap" },
                     React.createElement("div", { className: "popover-pointer" }),
                     showCloseButton && (React.createElement("div", { className: "signpost-content-header" },
                         React.createElement(button_1.Button, { className: "signpost-action close", defaultBtn: false, onClick: this.handleButtonClick },
